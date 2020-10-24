@@ -21,8 +21,6 @@ public class Soldado {
 
 	public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.nombre = nombre;
-		this.nivelVida = nivelVida;
-		this.fila = fila;
 		this.columna = columna;
 		this.simbolo = simbolo;
 		this.actitud = 'd';

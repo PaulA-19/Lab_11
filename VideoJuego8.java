@@ -2,9 +2,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-
 public class VideoJuego8 {
-	static Soldado[][] tabla = new Soldado[10][10]; 
+	static Soldado[][] tabla = new Soldado[10][10];
 
 	private static ArrayList<Soldado> ejercito1 = new ArrayList<Soldado>();
 	private static ArrayList<Soldado> ejercito2 = new ArrayList<Soldado>();
@@ -22,10 +21,10 @@ public class VideoJuego8 {
 		System.out.println("-------------");
 		Ordenamiento.insercion_vidaActual_desendiente(ejercito2);
 		mostrarEjercito(ejercito2);
-		
-		// mostrarEjercito(ejercito2);
 
+		// mostrarEjercito(ejercito2);
 		
+		mostrarMenu();
 	}
 
 	public static void mostrarMenu() {
@@ -42,7 +41,7 @@ public class VideoJuego8 {
 			mostrarSubMenu();
 		} else {
 			System.out.println("Gracias por ingresar al juego ...");
-//			System.exit(1);
+			// System.exit(1);
 		}
 
 	}
@@ -56,27 +55,27 @@ public class VideoJuego8 {
 
 		int opcion = sc.nextInt();
 		switch (opcion) {
-		case 1: {
-			crearSoldado();
-			break;
-		}
-		case 2: {
-			eliminarSoldado();
-			break;
-		}
-		case 10: {
-			inicioJuego();
-			break;
-		}
+			case 1: {
+				crearSoldado();
+				break;
+			}
+			case 2: {
+				eliminarSoldado();
+				break;
+			}
+			case 10: {
+				inicioJuego();
+				break;
+			}
 
-		case 11: {
-			mostrarMenu();
-			break;
-		}
+			case 11: {
+				mostrarMenu();
+				break;
+			}
 
-		default:
-			System.out.println("Opcion no valida, vuelve a intentarlo");
-			mostrarSubMenu();
+			default:
+				System.out.println("Opcion no valida, vuelve a intentarlo");
+				mostrarSubMenu();
 
 		}
 	}
@@ -87,24 +86,14 @@ public class VideoJuego8 {
 		System.out.print("A que ejrcito ira el soldado (A/B): ");
 		String simboloEjercito = sc.next();
 
-		System.out.print("Ingrese el nombre para el soldado: ");
-		String name = sc.next();
-		System.out.print("Ingrese vida actual: ");
-		int vidaActual = sc.nextInt();
-		System.out.print("Ingrese nivel ataque : ");
-		int nivelAtaque = sc.nextInt();
-		System.out.print("Ingrese nivel defensa: ");
-		int nivelDefensa = sc.nextInt();
-		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simboloEjercito.charAt(0));
-		System.out.println("Creando soldado ... ");
-
+		
 		if (simboloEjercito.equalsIgnoreCase("A")) {
 			if (ejercito1.size() >= 10) {
 				System.out.println("Lo siento, el ejercito esta lleno");
 				mostrarSubMenu();
 				return;
 			} else {
-				ejercito1.add(sol);
+				ejercito1.add(crearNuevoSoldado(simboloEjercito));
 			}
 
 		} else {
@@ -113,7 +102,7 @@ public class VideoJuego8 {
 				mostrarSubMenu();
 				return;
 			} else {
-				ejercito1.add(sol);
+				ejercito2.add(crearNuevoSoldado(simboloEjercito));
 
 			}
 		}
@@ -121,6 +110,22 @@ public class VideoJuego8 {
 		System.out.println("Soldado añadido con EXITO");
 		mostrarSubMenu();
 
+	}
+
+	public static Soldado crearNuevoSoldado(String simbolo) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Ingrese el nombre para el soldado: ");
+		String name = sc.next();
+		System.out.print("Ingrese vida actual: ");
+		int vidaActual = sc.nextInt();
+		System.out.print("Ingrese nivel ataque : ");
+		int nivelAtaque = sc.nextInt();
+		System.out.print("Ingrese nivel defensa: ");
+		int nivelDefensa = sc.nextInt();
+		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simbolo.charAt(0));
+		System.out.println("Creando soldado ... ");
+
+		return sol;
 	}
 
 	public static void eliminarSoldado() {
@@ -135,6 +140,7 @@ public class VideoJuego8 {
 				return;
 			} else {
 				System.out.print("Ingrese el indice del soldado en la fila del ejercito: ");
+				// Podemos dar la opcion para ver al alejercitot
 				int indice = sc.nextInt();
 
 				ejercito1.remove(indice);
@@ -159,16 +165,8 @@ public class VideoJuego8 {
 		}
 		mostrarSubMenu();
 	}
-	
-	
-	
 
 	public static void inicioJuego() {
-		mostrarEjercito(ejercito1);
-		System.out.println("----------------------");
-
-		mostrarEjercito(ejercito2);
-
 		mostrarTabla();
 
 		char turno = 'A';
@@ -399,9 +397,6 @@ public class VideoJuego8 {
 	}
 
 	// Metodos de ordenamineto
-
-	
-	
 
 	public static void mostrarEjercito(ArrayList<Soldado> ejercito) {
 		for (Soldado item : ejercito) {
