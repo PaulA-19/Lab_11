@@ -8,6 +8,9 @@ public class VideoJuego8 {
 	private static ArrayList<ArrayList<Soldado>> ejercitos = new ArrayList<ArrayList<Soldado>>();
 
 	public static void main(String[] args) {
+		ejercitos.add(new ArrayList<Soldado>());
+		ejercitos.add(new ArrayList<Soldado>());
+
 		limpiar();
 		char[] simbolosEjercitos = { 'A', 'B' };
 		llenarEjercitos(simbolosEjercitos);
@@ -90,6 +93,8 @@ public class VideoJuego8 {
 				return;
 			} else {
 				ejercitos.get(0).add(crearNuevoSoldado(simboloEjercito));
+				System.out.println("Soldado añadido con EXITO");
+		
 			}
 
 		} else {
@@ -99,11 +104,12 @@ public class VideoJuego8 {
 				return;
 			} else {
 				ejercitos.get(1).add(crearNuevoSoldado(simboloEjercito));
+				System.out.println("Soldado añadido con EXITO");
+		
 
 			}
 		}
 
-		System.out.println("Soldado añadido con EXITO");
 		mostrarSubMenu();
 
 	}
@@ -172,7 +178,14 @@ public class VideoJuego8 {
 		mostrarSubMenu();
 	}
 
+	public static void actualizarTabla() {
+		
+	}
+
 	public static void inicioJuego() {
+		mostrarEjercito(ejercitos.get(0));
+		System.out.println("B-------------");
+		mostrarEjercito(ejercitos.get(1));
 		mostrarTabla();
 
 		char turno = 'A';
