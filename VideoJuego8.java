@@ -9,7 +9,7 @@ public class VideoJuego8 {
 
 	public static void main(String[] args) {
 		limpiar();
-		char[] simbolosEjercitos = {'A', 'B'};
+		char[] simbolosEjercitos = { 'A', 'B' };
 		llenarEjercitos(simbolosEjercitos);
 		mostrarEjercito(ejercitos.get(0));
 		System.out.println("-------------");
@@ -127,7 +127,7 @@ public class VideoJuego8 {
 	public static void eliminarSoldado() {
 		Scanner sc = new Scanner(System.in);
 
-		System.out.print("A que ejrcito ira el soldado (A/B): ");
+		System.out.print("A que ejercito ira el soldado (A/B): ");
 		String simboloEjercito = sc.next();
 		if (simboloEjercito.equalsIgnoreCase("A")) {
 			if (ejercitos.get(0).size() <= 1) {
@@ -135,9 +135,13 @@ public class VideoJuego8 {
 				mostrarSubMenu();
 				return;
 			} else {
+				System.out.println("Berera ingresar el inidce del soldado en el ejercito");
+				System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+				char verEjercito = sc.next().toUpperCase().charAt(0);
+				if (verEjercito == 'S') {
+					mostrarEjercito(ejercitos.get(0));
+				}
 				System.out.println("Ingrese el indice del soldado en la fila del ejercito: ");
-				System.out.print("Desea verel ejercito "+simboloEjercito+ " (S/N): ");
-				char verEjercito = sc.nextLine();
 				int indice = sc.nextInt();
 
 				ejercitos.get(0).remove(indice);
@@ -151,12 +155,17 @@ public class VideoJuego8 {
 				mostrarSubMenu();
 				return;
 			} else {
-				System.out.print("Ingrese el indice del soldado en la fila del ejercito: ");
+				System.out.println("Debera ingresar el inidce del soldado en el ejercito");
+				System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+				char verEjercito = sc.next().toUpperCase().charAt(0);
+				if (verEjercito == 'S') {
+					mostrarEjercito(ejercitos.get(1));
+				}
+				System.out.println("Ingrese el indice del soldado en la fila del ejercito: ");
 				int indice = sc.nextInt();
 
 				ejercitos.get(1).remove(indice);
 				System.out.println("Soldado BORRADO CON EXITO");
-
 			}
 
 		}
@@ -196,16 +205,16 @@ public class VideoJuego8 {
 
 		}
 
-		mostrarGanador(ejercito1, ejercito2);
+		mostrarGanador();
 
 	}
 
 	public static void actualizarEjercitos(Soldado perdedor) {
 		if (perdedor != null) {
 			if (perdedor.getSimbolo() == 'A') {
-				ejercito1.remove(perdedor);
+				ejercitos.get(0).remove(perdedor);
 			} else {
-				ejercito2.remove(perdedor);
+				ejercitos.get(1).remove(perdedor);
 			}
 		}
 	}
@@ -261,19 +270,19 @@ public class VideoJuego8 {
 
 	public static boolean continuar() {
 
-		if (ejercito1.size() == 0 || ejercito2.size() == 0) {
+		if (ejercitos.get(0).size() == 0 || ejercitos.get(1).size() == 0) {
 			return false;
 		}
 		return true;
 
 	}
 
-	public static void mostrarGanador(ArrayList<Soldado> ej1, ArrayList<Soldado> ej2) {
+	public static void mostrarGanador() {
 		System.out.println("FIN DE LA BATALLA");
-		if (ejercito1.size() == 0) {
-			System.out.println("El ganador en el ejercito " + ejercito2.get(0).getSimbolo());
+		if (ejercitos.get(0).size() == 0) {
+			System.out.println("El ganador en el ejercito " + ejercitos.get(1).get(0).getSimbolo());
 		} else {
-			System.out.println("El ganador en el ejercito " + ejercito1.get(0).getSimbolo());
+			System.out.println("El ganador en el ejercito " + ejercitos.get(0).get(0).getSimbolo());
 		}
 	}
 
@@ -369,8 +378,8 @@ public class VideoJuego8 {
 				tabla[i][j] = null;
 			}
 		}
-		ejercito1.clear();
-		ejercito2.clear();
+		ejercitos.get(0).clear();
+		ejercitos.get(1).clear();
 	}
 
 	// Metodos de lab anteriores-----------------------------------------------
@@ -411,8 +420,8 @@ public class VideoJuego8 {
 	// Ganador definido por en promedio de vida del ejercito
 	public static void mostrarGanorBatalla() {
 
-		double promedio1 = promedioVida(ejercito1);
-		double promedio2 = promedioVida(ejercito2);
+		double promedio1 = promedioVida(ejercitos.get(0));
+		double promedio2 = promedioVida(ejercitos.get(1));
 		if (promedio1 > promedio2) {
 			System.out.println("\nEl ganador en el ejercito 1, con un promedio de vida de: " + promedio1);
 		} else if (promedio1 < promedio2) {
