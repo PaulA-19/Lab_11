@@ -48,8 +48,7 @@ public class Soldado {
 	}
 
 	public String toString() {
-		return "Nombre: " + nombre + ", Nivel Vida: " + nivelVida + ", Actitud: " + actitud + ", Ejercito: " + simbolo
-				+ ", Velocidad: " + velocidad;
+		return "Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + ", Ejercito: " + simbolo;
 	}
 
 	public void atacar() {

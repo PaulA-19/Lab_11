@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class VideoJuego8 {
 	static Soldado[][] tabla = new Soldado[10][10]; 
 
@@ -12,11 +13,19 @@ public class VideoJuego8 {
 		limpiar();
 		llenarEjercito(ejercito1, 'A', tabla);
 		llenarEjercito(ejercito2, 'B', tabla);
-
 		mostrarEjercito(ejercito1);
-		mostrarMenu();
+		System.out.println("-------------");
+		Ordenamiento.burbuja_vidaActual_desendiente(ejercito1);
 		mostrarEjercito(ejercito1);
+		System.out.println("----B---------");
+		mostrarEjercito(ejercito2);
+		System.out.println("-------------");
+		Ordenamiento.insercion_vidaActual_desendiente(ejercito2);
+		mostrarEjercito(ejercito2);
+		
+		// mostrarEjercito(ejercito2);
 
+		
 	}
 
 	public static void mostrarMenu() {
@@ -391,32 +400,8 @@ public class VideoJuego8 {
 
 	// Metodos de ordenamineto
 
-	public static void ordenarBurbuja(ArrayList<Soldado> lista) {
-		for (int i = 0; i < lista.size() - 1; i++) {
-			for (int j = 0; j < lista.size() - 1; j++) {
-
-				if (lista.get(j).getNivelVida() < lista.get(j + 1).getNivelVida()) {
-					Soldado tmp = lista.get(j);
-					lista.set(j, lista.get(j + 1));
-					lista.set(j + 1, tmp);
-				}
-			}
-		}
-
-	}
-
-	public static void ordenarInsercion(ArrayList<Soldado> lista) {
-		for (int i = 0; i < lista.size(); i++) {
-			int posicion = i;
-			Soldado tem = lista.get(i);
-			while (posicion > 0 && lista.get(posicion - 1).getNivelVida() < lista.get(posicion).getNivelVida()) {
-
-				lista.set(posicion, lista.get(posicion - 1));
-				lista.set(posicion - 1, tem);
-				posicion--;
-			}
-		}
-	}
+	
+	
 
 	public static void mostrarEjercito(ArrayList<Soldado> ejercito) {
 		for (Soldado item : ejercito) {
