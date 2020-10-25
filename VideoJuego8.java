@@ -64,6 +64,10 @@ public class VideoJuego8 {
 				modificarSoldado();
 				break;
 			}
+			case 5: {
+				compararSoldado();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -264,14 +268,14 @@ public class VideoJuego8 {
 						System.out.print("Ingrese nuevo nombre: ");
 						String name = sc.next();
 						ejercitos.get(num).get(indice).setNombre(name);
-						System.out.print("Proceso completado con exito");
+						System.out.println("Proceso completado con exito");
 						break;
 					}
 					case 2: {
 						System.out.print("Ingrese nuevo Nivel de ataque: ");
 						int ataque = sc.nextInt();
 						ejercitos.get(num).get(indice).setNivelAtaque(ataque);
-						System.out.print("Proceso completado con exito");
+						System.out.println("Proceso completado con exito");
 
 						break;
 					}
@@ -279,14 +283,14 @@ public class VideoJuego8 {
 						System.out.print("Ingrese nuevo nivel de defensa: ");
 						int defensa = sc.nextInt();
 						ejercitos.get(num).get(indice).setNivelDefensa(defensa);
-						System.out.print("Proceso completado con exito");
+						System.out.println("Proceso completado con exito");
 						break;
 					}
 					case 4: {
 						System.out.print("Ingrese nuevo Vida Actual: ");
 						int vida = sc.nextInt();
 						ejercitos.get(num).get(indice).setVidaActual(vida);
-						System.out.print("Proceso completado con exito");
+						System.out.println("Proceso completado con exito");
 
 						break;
 					}
@@ -303,7 +307,7 @@ public class VideoJuego8 {
 							ejercitos.get(1).remove(ejercitos.get(num).get(indice));
 
 						}
-						System.out.print("Proceso completado con exito");
+						System.out.println("Proceso completado con exito");
 
 						break;
 					}
@@ -315,10 +319,53 @@ public class VideoJuego8 {
 
 			}
 		} else {
-			System.out.print("Opcion no valida");
+			System.out.println("Opcion no valida");
 
 		}
 		mostrarSubMenu();
+	}
+
+	public static void compararSoldado() {
+		System.out.print("De que ejercito comparar los soldados (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoComparar(0, simboloEjercito);
+
+		} else {
+			procesoComparar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void procesoComparar(int num, String simboloEjercito) {
+		System.out.println("Debera ingresar el ID del promer soldado en el ejercito");
+		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+		char verEjercito = sc.next().toUpperCase().charAt(0);
+		if (verEjercito == 'S') {
+			mostrarEjercito(ejercitos.get(num));
+		}
+		System.out.print("Ingrese el ID del PRIMER soldado: ");
+		int id1 = sc.nextInt();
+		int indice1 = obtenerIndice(id1, ejercitos.get(num));
+
+		System.out.print("Ingrese el ID del SEGUNDO soldado: ");
+		int id2 = sc.nextInt();
+		int indice2 = obtenerIndice(id2, ejercitos.get(num));
+
+		if (indice1 == -1 || indice2 == -1) {
+			System.out.println("ID no encontrado");
+
+		} else {
+
+			Soldado sol1 = ejercitos.get(num).get(indice1);
+			Soldado sol2 = ejercitos.get(num).get(indice2);
+			if (Soldado.comparar(sol1, sol2)) {
+				System.out.println("Los soldados son IGUALES");
+			} else {
+				System.out.println("Los soldados son DIFERENTES");
+			}
+		}
+
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {

@@ -88,6 +88,15 @@ public class Soldado {
 		return sol;
 	}
 
+	public static boolean comparar(Soldado s1, Soldado s2) {
+		boolean v1 = (s1.getNombre().equalsIgnoreCase(s2.getNombre()));
+		boolean v2 = (s1.getNivelAtaque() == s2.getNivelAtaque());
+		boolean v3 = (s1.getNivelDefensa() == s2.getNivelDefensa());
+		boolean v4 = (s1.getVidaActual() == s2.getVidaActual());
+		boolean v5 = (s1.getVive() && s2.getVive());
+		return (v1 && v2 && v3 && v4 && v5);
+	}
+
 	public static void mostrarAtributos() {
 		System.out.println(
 				"1.- Nombre\n2.- nivel de Ataque\n3.- Nivel de defensa\n4.- Vida actual\n5.- Ejercito\n6.- Volver");
@@ -188,6 +197,46 @@ public class Soldado {
 		return simbolo;
 	}
 
+	public boolean isVive() {
+		return vive;
+	}
+
+	public void setVive(boolean vive) {
+		this.vive = vive;
+	}
+
+	public static int getCantidad() {
+		return cantidad;
+	}
+
+	public static void setCantidad(int cantidad) {
+		Soldado.cantidad = cantidad;
+	}
+
+	public int getNivelAtaque() {
+		return nivelAtaque;
+	}
+
+	public int getNivelDefensa() {
+		return nivelDefensa;
+	}
+
+	public int getVelocidad() {
+		return velocidad;
+	}
+
+	public char getActitud() {
+		return actitud;
+	}
+
+	public boolean isAtacar() {
+		return atacar;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getNivelVida() {
 		return nivelVida;
 	}
@@ -229,6 +278,10 @@ public class Soldado {
 		return vidaActual;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
 	public void setVidaActual(int vidaActual) {
 		if (vidaActual <= nivelVida) {
 			this.vidaActual = vidaActual;
@@ -248,6 +301,10 @@ public class Soldado {
 
 	public int getColumna() {
 		return columna;
+	}
+
+	public boolean getVive() {
+		return vive;
 	}
 
 	public void setColumna(int columna) {
