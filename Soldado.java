@@ -6,7 +6,7 @@ public class Soldado {
 	private String nombre;
 	private int nivelAtaque;
 	private int nivelDefensa;
-	private int nivelVida;
+	private int nivelVida = 5;
 	private int vidaActual;
 	private int velocidad;
 	private char actitud; // Tres posibles casos , puede ser char (D,O,H)
@@ -33,7 +33,7 @@ public class Soldado {
 
 	public Soldado(String name, int vidaActual, int fila, int columna, char simbolo) {
 		nombre = name;
-		this.vidaActual = vidaActual;
+		setVidaActual(vidaActual);
 		this.fila = fila;
 		this.columna = columna;
 		this.actitud = 'd';
@@ -176,8 +176,10 @@ public class Soldado {
 	public void setVidaActual(int vidaActual) {
 		if (vidaActual <= nivelVida) {
 			this.vidaActual = vidaActual;
+		} else {
+			System.out.println("Vida actual maxima");
+			this.vidaActual = nivelVida;
 		}
-
 	}
 
 	public int getFila() {
