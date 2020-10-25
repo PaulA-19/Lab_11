@@ -15,9 +15,6 @@ public class VideoJuego8 {
 		limpiar();
 		char[] simbolosEjercitos = { 'A', 'B' };
 		llenarEjercitos(simbolosEjercitos);
-		mostrarEjercito(ejercitos.get(0));
-		System.out.println("-------------");
-		mostrarEjercito(ejercitos.get(1));
 
 		mostrarMenu();
 	}
@@ -495,7 +492,7 @@ public class VideoJuego8 {
 			for (int i = 0; i < ejercitos.get(num).size() - 1; i++) {
 				sol = ejercitos.get(num).get(i).sumar(ejercitos.get(num).get(i + 1));
 			}
-			
+
 			ejercitos.get(num).add(sol);
 			actualizarTabla();
 			System.out.println("Soldado añadido con EXITO");
@@ -515,9 +512,6 @@ public class VideoJuego8 {
 	// ------------------------------------------------------------------------------------------------------------------------------------
 
 	public static void inicioJuego() {
-		mostrarEjercito(ejercitos.get(0));
-		System.out.println("B-------------");
-		mostrarEjercito(ejercitos.get(1));
 		mostrarTabla();
 
 		char turno = 'A';
@@ -551,7 +545,10 @@ public class VideoJuego8 {
 		}
 
 		mostrarGanador();
-
+		limpiar();
+		char[] simbolos = { 'A', 'B' };
+		llenarEjercitos(simbolos);
+		mostrarMenu();
 	}
 
 	public static void actualizarEjercitos(Soldado perdedor) {
