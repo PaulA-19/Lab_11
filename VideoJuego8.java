@@ -68,6 +68,10 @@ public class VideoJuego8 {
 				compararSoldado();
 				break;
 			}
+			case 6: {
+				Intercambiar();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -364,6 +368,45 @@ public class VideoJuego8 {
 			} else {
 				System.out.println("Los soldados son DIFERENTES");
 			}
+		}
+
+	}
+
+	public static void Intercambiar() {
+		System.out.print("De que ejercito intercambiar los soldados (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoIntercambiar(0, simboloEjercito);
+		}else{
+			procesoIntercambiar(0, simboloEjercito);
+		}
+	}
+
+	public static void procesoIntercambiar(int num, String simboloEjercito) {
+		System.out.println("Debera ingresar el ID del promer soldado en el ejercito");
+		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+		char verEjercito = sc.next().toUpperCase().charAt(0);
+		if (verEjercito == 'S') {
+			mostrarEjercito(ejercitos.get(num));
+		}
+		System.out.print("Ingrese el ID del PRIMER soldado: ");
+		int id1 = sc.nextInt();
+		int indice1 = obtenerIndice(id1, ejercitos.get(num));
+
+		System.out.print("Ingrese el ID del SEGUNDO soldado: ");
+		int id2 = sc.nextInt();
+		int indice2 = obtenerIndice(id2, ejercitos.get(num));
+
+		if (indice1 == -1 || indice2 == -1) {
+			System.out.println("ID no encontrado");
+
+		} else{
+			int fila = ejercitos.get(num).get(indice1).getFila();
+			int columna = ejercitos.get(num).get(indice1).getColumna();
+			ejercitos.get(num).get(indice1).setColumna(ejercitos.get(num).get(indice2).getColumna());
+			ejercitos.get(num).get(indice1).setFila(ejercitos.get(num).get(indice2).getFila());
+			ejercitos.get(num).get(indice2).setColumna(columna);
+			ejercitos.get(num).get(indice2).setFila(fila);
 		}
 
 	}
