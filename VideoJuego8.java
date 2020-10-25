@@ -183,6 +183,7 @@ public class VideoJuego8 {
 	}
 
 	public static void procesoClonar(int num, String simboloEjercito) {
+		Random rd = new Random();
 		if (ejercitos.get(num).size() >= 10) {
 			System.out.println("Lo siento, NO PUEDES CLONAR, sobrepasas las unidades por ejercito");
 
@@ -203,10 +204,17 @@ public class VideoJuego8 {
 				System.out.println("ID no encontrado");
 
 			} else {
-				ejercitos.get(num).get(indice);
+				int fila;
+				int columna;
+				do {
+					fila = rd.nextInt(10);
+					columna = rd.nextInt(10);
+				} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
 
-				actualizarTabla();
-				System.out.println("Soldado BORRADO CON EXITO");
+				Soldado clonado = ejercitos.get(num).get(indice).clonar(fila, columna);
+
+				ejercitos.get(num).add(clonado);
+				System.out.println("Soldado CLONADO CON EXITO");
 			}
 		}
 

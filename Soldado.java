@@ -10,11 +10,10 @@ public class Soldado {
 	private int vidaActual;
 	private int velocidad;
 	private char actitud; // Tres posibles casos , puede ser char (D,O,H)
-	private boolean vive;
+	private boolean vive = true;
 
 	// atributos que concidero yo
 	private static int cantidad = 0;
-	private int daño;
 	private int id;
 	private boolean atacar;
 	private int fila;
@@ -51,6 +50,42 @@ public class Soldado {
 		this.actitud = 'd';
 		this.id = cantidad;
 		cantidad++;
+	}
+
+	public Soldado(String nombre, int nivelAtaque, int nivelDefensa, int nivelVida, int vidaActual, int velocidad,
+			char actitud, boolean vive, int id, boolean atacar, int fila, int columna, char simbolo) {
+
+		this.nombre = nombre;
+		this.nivelAtaque = nivelAtaque;
+		this.nivelDefensa = nivelDefensa;
+		this.nivelVida = nivelVida;
+		this.vidaActual = vidaActual;
+		this.velocidad = velocidad;
+		this.actitud = actitud;
+		this.vive = vive;
+		this.id = id;
+		this.atacar = atacar;
+		this.fila = fila;
+		this.columna = columna;
+		this.simbolo = simbolo;
+	}
+
+	public Soldado clonar(int fila, int columna) {
+		String nombre = this.nombre;
+		int nivelAtaque = this.nivelAtaque;
+		int nivelDefensa = this.nivelDefensa;
+		int nivelVida = 5;
+		int vidaActual = this.vidaActual;
+		int velocidad = this.velocidad;
+		char actitud = this.actitud;
+		boolean vive = true;
+		cantidad++;
+		int id = cantidad;
+		boolean atacar = this.atacar;
+		char simbolo = this.simbolo;
+		Soldado sol = new Soldado(nombre, nivelAtaque, nivelDefensa, nivelVida, vidaActual, velocidad, actitud, vive,
+				id, atacar, fila, columna, simbolo);
+		return sol;
 	}
 
 	public String toString() {
