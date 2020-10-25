@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class VideoJuego8 {
 	static Soldado[][] tabla = new Soldado[10][10];
+	static Scanner sc = new Scanner(System.in);
 
 	private static ArrayList<ArrayList<Soldado>> ejercitos = new ArrayList<ArrayList<Soldado>>();
 
@@ -16,13 +17,12 @@ public class VideoJuego8 {
 		llenarEjercitos(simbolosEjercitos);
 		mostrarEjercito(ejercitos.get(0));
 		System.out.println("-------------");
-		mostrarEjercito(ejercitos.get(0));
-		
+		mostrarEjercito(ejercitos.get(1));
+
 		mostrarMenu();
 	}
 
 	public static void mostrarMenu() {
-		Scanner sc = new Scanner(System.in);
 		System.out.println("Escoja un numero");
 		System.out.println("1.- Empezar a jugar\n2.- Gestionar Ejercito\n3.- Salir");
 		System.out.print("=> : ");
@@ -41,7 +41,6 @@ public class VideoJuego8 {
 	}
 
 	public static void mostrarSubMenu() {
-		Scanner sc = new Scanner(System.in);
 		System.out.println("Escoja un numero");
 		System.out.println(
 				"1.- Crear Soldado\n2.- Eliminar Soldao\n3.- Clonar Soldado\n4.- Modificar Soldado \n5.- Comparar Soldaos\n6.- Intercambiar Soldados\n7.- Ver Soldado\n8.- Ver Ejercito\n9.- Sumar Niveles\n10.- Jugar\n11.- Volver");
@@ -75,7 +74,6 @@ public class VideoJuego8 {
 	}
 
 	public static void crearSoldado() {
-		Scanner sc = new Scanner(System.in);
 
 		System.out.print("A que ejercito ira el soldado (A/B): ");
 		String simboloEjercito = sc.next();
@@ -83,8 +81,7 @@ public class VideoJuego8 {
 		if (simboloEjercito.equalsIgnoreCase("A")) {
 			if (ejercitos.get(0).size() >= 10) {
 				System.out.println("Lo siento, el ejercito esta lleno");
-				mostrarSubMenu();
-				return;
+				
 			} else {
 				ejercitos.get(0).add(crearNuevoSoldado(simboloEjercito));
 				actualizarTabla();
@@ -95,7 +92,7 @@ public class VideoJuego8 {
 		} else {
 			if (ejercitos.get(1).size() >= 10) {
 				System.out.println("Lo siento, el ejercito esta lleno");
-				mostrarSubMenu();
+				
 				return;
 			} else {
 				ejercitos.get(1).add(crearNuevoSoldado(simboloEjercito));
@@ -110,7 +107,6 @@ public class VideoJuego8 {
 	}
 
 	public static Soldado crearNuevoSoldado(String simbolo) {
-		Scanner sc = new Scanner(System.in);
 		System.out.print("Ingrese el nombre para el soldado: ");
 		String name = sc.nextLine();
 		System.out.print("Ingrese VIDA ACTUAL: ");
@@ -126,53 +122,57 @@ public class VideoJuego8 {
 	}
 
 	public static void eliminarSoldado() {
-		Scanner sc = new Scanner(System.in);
 
 		System.out.print("A que ejercito ira el soldado (A/B): ");
 		String simboloEjercito = sc.next();
 		if (simboloEjercito.equalsIgnoreCase("A")) {
-			if (ejercitos.get(0).size() <= 1) {
-				System.out.println("Lo siento, no puedes eliminar, TE QUEDARIAS SIN EJERCITO");
-				mostrarSubMenu();
-				return;
-			} else {
-				System.out.println("Berera ingresar el inidce del soldado en el ejercito");
-				System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
-				char verEjercito = sc.next().toUpperCase().charAt(0);
-				if (verEjercito == 'S') {
-					mostrarEjercito(ejercitos.get(0));
-				}
-				System.out.print("Ingrese el indice del soldado en la fila del ejercito: ");
-				int indice = sc.nextInt();
-
-				ejercitos.get(0).remove(indice);
-				actualizarTabla();
-				System.out.println("Soldado BORRADO CON EXITO");
-
-			}
+			procesoEliminar(0, simboloEjercito);
 
 		} else {
-			if (ejercitos.get(1).size() <= 1) {
-				System.out.println("Lo siento, no puedes eliminar, TE QUEDARIAS SIN EJERCITO");
-				mostrarSubMenu();
-				return;
-			} else {
-				System.out.println("Debera ingresar el inidce del soldado en el ejercito");
-				System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
-				char verEjercito = sc.next().toUpperCase().charAt(0);
-				if (verEjercito == 'S') {
-					mostrarEjercito(ejercitos.get(1));
-				}
-				System.out.println("Ingrese el indice del soldado en la fila del ejercito: ");
-				int indice = sc.nextInt();
-
-				ejercitos.get(1).remove(indice);
-				actualizarTabla();
-				System.out.println("Soldado BORRADO CON EXITO");
-			}
-
+			procesoEliminar(1, simboloEjercito);
 		}
 		mostrarSubMenu();
+	}
+
+public static void procesoEliminar(int num, String simboloEjercito) {
+	if (ejercitos.get(num).size() <= 1) {
+		System.out.println("Lo siento, no puedes eliminar, TE QUEDARIAS SIN EJERCITO");
+		
+		
+	} else {
+		System.out.println("Debera ingresar el ID del soldado en el ejercito");
+		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+		char verEjercito = sc.next().toUpperCase().charAt(0);
+		if (verEjercito == 'S') {
+			mostrarEjercito(ejercitos.get(num));
+		}
+		System.out.print("Ingrese el ID del soldado: ");
+
+		int id = sc.nextInt();
+
+		int indice = obtenerIndice(id, ejercitos.get(num));
+
+		if (indice == -1) {
+			System.out.println("ID no encontrado");
+			
+		} else {
+
+			ejercitos.get(num).remove(indice);
+			actualizarTabla();
+			System.out.println("Soldado BORRADO CON EXITO");
+		}
+	}
+
+	
+}
+
+	public static int obtenerIndice(int id, ArrayList<Soldado> ejercito) {
+		for (int i = 0; i < ejercito.size(); i++) {
+
+			if (ejercito.get(i).getId() == id)
+				return i;
+		}
+		return -1;
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {
@@ -181,7 +181,10 @@ public class VideoJuego8 {
 		int fila = valores[0];
 		int columna = valores[1];
 		ganador.setFila(fila);
-		ganador.setColumna(columna);}
+		ganador.setColumna(columna);
+	}
+	// ------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------
 
 	public static void inicioJuego() {
 		mostrarEjercito(ejercitos.get(0));
@@ -234,28 +237,18 @@ public class VideoJuego8 {
 	}
 
 	public static void actualizarTabla() {
-		System.out.println("Tabla antes de limpiar");
-		mostrarTabla();
 		limpiarTabla();
-		System.out.println("Tabla despues  de limpiar");
-		mostrarTabla();
-		
-		
-		for (int i = 0; i < 2 ; i++) {
+
+		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < ejercitos.get(i).size(); j++) {
 				Soldado tem = ejercitos.get(i).get(j);
 				tabla[tem.getFila()][tem.getColumna()] = tem;
-//				mostrarTabla();
 			}
 		}
 
-		System.out.println("Tabla desoues de actualizar");
-		mostrarTabla();
-		
 	}
 
 	public static int[] preguntarPosicion(char turno) {
-		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Ingrese la coordenada para mover al soldado: ");
 		System.out.print("fila: ");
@@ -284,7 +277,6 @@ public class VideoJuego8 {
 	}
 
 	public static boolean preguntar() {
-		Scanner sc = new Scanner(System.in);
 		System.out.print("\nDesea simulr otra batalla (s/n) : ");
 		String respuesta = sc.next();
 
@@ -313,7 +305,6 @@ public class VideoJuego8 {
 	}
 
 	public static Soldado escogerSoldado(char turno) {
-		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Ingrese la coordenada del soldado que desea mover: ");
 		System.out.print("fila: ");
@@ -356,7 +347,7 @@ public class VideoJuego8 {
 					columna = rd.nextInt(10);
 				} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
 
-				String name = "Soldado" + i+j;
+				String name = "Soldado" + i + j;
 				int vida = rd.nextInt(5) + 1;
 
 				Soldado sol = new Soldado(name, vida, fila, columna, simbolos[i]);
@@ -409,7 +400,7 @@ public class VideoJuego8 {
 				tabla[i][j] = null;
 			}
 		}
-		
+
 	}
 
 	public static void limpiarEjercitos() {

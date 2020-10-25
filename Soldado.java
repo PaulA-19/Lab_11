@@ -13,7 +13,9 @@ public class Soldado {
 	private boolean vive;
 
 	// atributos que concidero yo
+	private static int cantidad = 0;
 	private int daño;
+	private int id;
 	private boolean atacar;
 	private int fila;
 	private int columna;
@@ -25,6 +27,8 @@ public class Soldado {
 		this.simbolo = simbolo;
 		this.actitud = 'd';
 		vidaActual = (int) (Math.random() * 6);
+		this.id = cantidad;
+		cantidad++;
 	}
 
 	public Soldado(String name, int vidaActual, int fila, int columna, char simbolo) {
@@ -34,6 +38,8 @@ public class Soldado {
 		this.columna = columna;
 		this.actitud = 'd';
 		this.simbolo = simbolo;
+		this.id = cantidad;
+		cantidad++;
 	}
 
 	public Soldado(String nombre, int nivelAtaque, int nivelDefensa, int nivelVida, boolean vive) {
@@ -43,10 +49,12 @@ public class Soldado {
 		this.nivelVida = nivelVida;
 		this.vive = vive;
 		this.actitud = 'd';
+		this.id = cantidad;
+		cantidad++;
 	}
 
 	public String toString() {
-		return "Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + ", Ejercito: " + simbolo;
+		return "ID : " + id + ", Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + ", Ejercito: " + simbolo;
 	}
 
 	public void atacar() {
@@ -132,6 +140,9 @@ public class Soldado {
 	}
 
 	// ---------------- get and set --------------------------
+	public int getId() {
+		return id;
+	}
 
 	public char getSimbolo() {
 		return simbolo;
