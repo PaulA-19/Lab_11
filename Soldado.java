@@ -27,11 +27,11 @@ public class Soldado {
 		vidaActual = (int) (Math.random() * 6);
 	}
 
-	public Soldado(String name, int vidaActual, int nivelAtaque, int nivelDefensa, char simbolo) {
+	public Soldado(String name, int vidaActual, int fila, int columna, char simbolo) {
 		nombre = name;
 		this.vidaActual = vidaActual;
-		this.nivelAtaque = nivelAtaque;
-		this.nivelDefensa = nivelDefensa;
+		this.fila = fila;
+		this.columna = columna;
 		this.actitud = 'd';
 		this.simbolo = simbolo;
 	}
