@@ -76,6 +76,10 @@ public class VideoJuego8 {
 				verSoldado();
 				break;
 			}
+			case 8: {
+				verEjercito();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -446,6 +450,21 @@ public class VideoJuego8 {
 		}else{
 			System.out.println(ejercitos.get(num).get(indice));
 		}
+	}
+	public static void verEjercito() {
+		System.out.print("De que ejercito desea ver el soldado (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoVerEjercito(0);
+
+		} else {
+			procesoVerEjercito(1);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void procesoVerEjercito(int num) {
+		mostrarEjercito(ejercitos.get(num));
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {
