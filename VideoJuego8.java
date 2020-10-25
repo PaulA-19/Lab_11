@@ -72,6 +72,10 @@ public class VideoJuego8 {
 				Intercambiar();
 				break;
 			}
+			case 7: {
+				verSoldado();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -377,7 +381,7 @@ public class VideoJuego8 {
 		String simboloEjercito = sc.next();
 		if (simboloEjercito.equalsIgnoreCase("A")) {
 			procesoIntercambiar(0, simboloEjercito);
-		}else{
+		} else {
 			procesoIntercambiar(0, simboloEjercito);
 		}
 	}
@@ -400,7 +404,7 @@ public class VideoJuego8 {
 		if (indice1 == -1 || indice2 == -1) {
 			System.out.println("ID no encontrado");
 
-		} else{
+		} else {
 			int fila = ejercitos.get(num).get(indice1).getFila();
 			int columna = ejercitos.get(num).get(indice1).getColumna();
 			ejercitos.get(num).get(indice1).setColumna(ejercitos.get(num).get(indice2).getColumna());
@@ -409,6 +413,39 @@ public class VideoJuego8 {
 			ejercitos.get(num).get(indice2).setFila(fila);
 		}
 
+	}
+
+	public static void verSoldado() {
+		System.out.print("De que ejercito desea ver el soldado (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoVerSoldado(0, simboloEjercito);
+
+		} else {
+			procesoVerSoldado(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void procesoVerSoldado(int num, String simboloEjercito) {
+		System.out.println("Debera ingresar el ID del soldado en el ejercito");
+		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+		char verEjercito = sc.next().toUpperCase().charAt(0);
+		if (verEjercito == 'S') {
+			mostrarEjercito(ejercitos.get(num));
+		}
+		System.out.print("Ingrese el ID del soldado: ");
+
+		int id = sc.nextInt();
+
+		int indice = obtenerIndice(id, ejercitos.get(num));
+
+		if (indice == -1) {
+			System.out.println("ID no encontrado");
+
+		}else{
+			System.out.println(ejercitos.get(num).get(indice));
+		}
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {
