@@ -88,6 +88,11 @@ public class Soldado {
 		return sol;
 	}
 
+	public static void mostrarAtributos() {
+		System.out.println(
+				"1.- Nombre\n2.- nivel de Ataque\n3.- Nivel de defensa\n4.- Vida actual\n5.- Ejercito\n6.- Volver");
+	}
+
 	public String toString() {
 		return "ID : " + id + ", Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + ", Ejercito: " + simbolo;
 	}
@@ -191,8 +196,24 @@ public class Soldado {
 		this.nivelVida = nivelVida;
 	}
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
+	}
+
+	public void setNivelAtaque(int nivelAtaque) {
+		this.nivelAtaque = nivelAtaque;
+	}
+
+	public void setNivelDefensa(int nivelDefensa) {
+		this.nivelDefensa = nivelDefensa;
+	}
+
+	public void setSimbolo(char simbolo) {
+		this.simbolo = simbolo;
 	}
 
 	public void setActitud(char actitud) {

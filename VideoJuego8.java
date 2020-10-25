@@ -60,6 +60,10 @@ public class VideoJuego8 {
 				clonarSoldado();
 				break;
 			}
+			case 4: {
+				modificarSoldado();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -218,6 +222,103 @@ public class VideoJuego8 {
 			}
 		}
 
+	}
+
+	public static void modificarSoldado() {
+		System.out.print("De que ejercito modificar el soldado(A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoModificar(0, simboloEjercito);
+
+		} else {
+			procesoModificar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void procesoModificar(int num, String simboloEjercito) {
+		Soldado.mostrarAtributos();
+		System.out.print("Eliga una opcion: ");
+		int opcion = sc.nextInt();
+		if (opcion <= 6) {
+
+			System.out.println("Debera ingresar el ID del soldado en el ejercito");
+			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+			char verEjercito = sc.next().toUpperCase().charAt(0);
+			if (verEjercito == 'S') {
+				mostrarEjercito(ejercitos.get(num));
+			}
+			System.out.print("Ingrese el ID del soldado: ");
+
+			int id = sc.nextInt();
+
+			int indice = obtenerIndice(id, ejercitos.get(num));
+
+			if (indice == -1) {
+				System.out.println("ID no encontrado");
+
+			} else {
+
+				switch (opcion) {
+					case 1: {
+						System.out.print("Ingrese nuevo nombre: ");
+						String name = sc.next();
+						ejercitos.get(num).get(indice).setNombre(name);
+						System.out.print("Proceso completado con exito");
+						break;
+					}
+					case 2: {
+						System.out.print("Ingrese nuevo Nivel de ataque: ");
+						int ataque = sc.nextInt();
+						ejercitos.get(num).get(indice).setNivelAtaque(ataque);
+						System.out.print("Proceso completado con exito");
+
+						break;
+					}
+					case 3: {
+						System.out.print("Ingrese nuevo nivel de defensa: ");
+						int defensa = sc.nextInt();
+						ejercitos.get(num).get(indice).setNivelDefensa(defensa);
+						System.out.print("Proceso completado con exito");
+						break;
+					}
+					case 4: {
+						System.out.print("Ingrese nuevo Vida Actual: ");
+						int vida = sc.nextInt();
+						ejercitos.get(num).get(indice).setVidaActual(vida);
+						System.out.print("Proceso completado con exito");
+
+						break;
+					}
+					case 5: {
+						System.out.print("Ingrese nuevo Ejercito: ");
+						String ejer = sc.next();
+						ejercitos.get(num).get(indice).setSimbolo(ejer.charAt(0));
+						if (num == 0) {
+							ejercitos.get(1).add(ejercitos.get(num).get(indice));
+							ejercitos.get(0).remove(ejercitos.get(num).get(indice));
+
+						} else {
+							ejercitos.get(0).add(ejercitos.get(num).get(indice));
+							ejercitos.get(1).remove(ejercitos.get(num).get(indice));
+
+						}
+						System.out.print("Proceso completado con exito");
+
+						break;
+					}
+					case 6: {
+						break;
+					}
+
+				}
+
+			}
+		} else {
+			System.out.print("Opcion no valida");
+
+		}
+		mostrarSubMenu();
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {
