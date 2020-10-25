@@ -80,6 +80,10 @@ public class VideoJuego8 {
 				verEjercito();
 				break;
 			}
+			case 9: {
+				Sumar();
+				break;
+			}
 			case 10: {
 				inicioJuego();
 				break;
@@ -447,10 +451,11 @@ public class VideoJuego8 {
 		if (indice == -1) {
 			System.out.println("ID no encontrado");
 
-		}else{
+		} else {
 			System.out.println(ejercitos.get(num).get(indice));
 		}
 	}
+
 	public static void verEjercito() {
 		System.out.print("De que ejercito desea ver el soldado (A/B): ");
 		String simboloEjercito = sc.next();
@@ -465,6 +470,37 @@ public class VideoJuego8 {
 
 	public static void procesoVerEjercito(int num) {
 		mostrarEjercito(ejercitos.get(num));
+	}
+
+	public static void Sumar() {
+
+		System.out.print("En que ejercito creae un soldado con la suma de todos (A/B): ");
+		String simboloEjercito = sc.next();
+
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoSumar(0, simboloEjercito);
+		} else {
+			procesoSumar(1, simboloEjercito);
+		}
+
+		mostrarSubMenu();
+
+	}
+
+	public static void procesoSumar(int num, String simboloEjercito) {
+		if (ejercitos.get(num).size() >= 10) {
+			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
+		} else {
+			Soldado sol = new Soldado();
+			for (int i = 0; i < ejercitos.get(num).size() - 1; i++) {
+				sol = ejercitos.get(num).get(i).sumar(ejercitos.get(num).get(i + 1));
+			}
+			
+			ejercitos.get(num).add(sol);
+			actualizarTabla();
+			System.out.println("Soldado añadido con EXITO");
+
+		}
 	}
 
 	public static void actualizarTabla(Soldado escogido, Soldado ganador, int[] valores) {

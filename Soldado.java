@@ -1,14 +1,16 @@
 
 import java.util.Random;
 
+import javax.xml.catalog.CatalogManager;
+
 public class Soldado {
 
 	private String nombre;
-	private int nivelAtaque;
-	private int nivelDefensa;
+	private int nivelAtaque = (int) (Math.random() * 6);
+	private int nivelDefensa = (int) (Math.random() * 6);
 	private int nivelVida = 5;
 	private int vidaActual;
-	private int velocidad;
+	private int velocidad = (int) (Math.random() * 6);
 	private char actitud; // Tres posibles casos , puede ser char (D,O,H)
 	private boolean vive = true;
 
@@ -19,6 +21,9 @@ public class Soldado {
 	private int fila;
 	private int columna;
 	private char simbolo;
+
+	public Soldado() {
+	}
 
 	public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.nombre = nombre;
@@ -50,6 +55,18 @@ public class Soldado {
 		this.actitud = 'd';
 		this.id = cantidad;
 		cantidad++;
+	}
+
+	public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa, int velocidad, char simbolo) {
+		this.nombre = nombre;
+		this.nivelAtaque = nivelAtaque;
+		this.nivelDefensa = nivelDefensa;
+		this.nivelVida = nivelVida;
+		this.velocidad = velocidad;
+		this.simbolo = simbolo;
+		cantidad++;
+		this.id = cantidad;
+
 	}
 
 	public Soldado(String nombre, int nivelAtaque, int nivelDefensa, int nivelVida, int vidaActual, int velocidad,
@@ -103,7 +120,18 @@ public class Soldado {
 	}
 
 	public String toString() {
-		return "ID : " + id + ", Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + ", Ejercito: " + simbolo;
+		return "ID : " + id + ", Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + " , Nive de ataque: "
+				+ nivelAtaque + ", Ejercito: " + simbolo;
+	}
+
+	public Soldado sumar(Soldado s) {
+		Soldado sol;
+		int nivel_Vida = nivelVida + s.getNivelVida();
+		int nivel_Ataque = nivelAtaque + s.getNivelAtaque();
+		int nivel_Defensa = nivelDefensa + s.getNivelDefensa();
+		int vel = velocidad + s.getVelocidad();
+		sol = new Soldado("Suma", nivel_Vida, nivel_Ataque, nivel_Defensa, vel, s.getSimbolo());
+		return sol;
 	}
 
 	public void atacar() {
