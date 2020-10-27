@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class VideoJuego8 {
 	static Soldado[][] tabla = new Soldado[10][10];
@@ -19,100 +17,7 @@ public class VideoJuego8 {
 		mostrarMenu();
 	}
 
-	public static void mostrarMenu() {
-		System.out.println("Escoja un numero");
-		System.out.println("1.- Empezar a jugar\n2.- Gestionar Ejercito\n3.- Salir");
-		System.out.print("=> : ");
-
-		int opcion = sc.nextInt();
-
-		if (opcion == 1) {
-			inicioJuego();
-		} else if (opcion == 2) {
-			mostrarSubMenu();
-		} else {
-			System.out.println("Gracias por ingresar al juego ...");
-			System.exit(1);
-		}
-
-	}
-
-	public static void mostrarSubMenu() {
-		System.out.println("Escoja un numero");
-		System.out.println(
-				"1.- Crear Soldado\n2.- Eliminar Soldao\n3.- Clonar Soldado\n4.- Modificar Soldado \n5.- Comparar Soldaos\n6.- Intercambiar Soldados\n7.- Ver Soldado\n8.- Ver Ejercito\n9.- Sumar Niveles\n10.- Jugar\n11.- Volver");
-		System.out.print("=> : ");
-
-		int opcion = sc.nextInt();
-		switch (opcion) {
-			case 1: {
-				crearSoldado();
-				break;
-			}
-			case 2: {
-				eliminarSoldado();
-				break;
-			}
-			case 3: {
-				clonarSoldado();
-				break;
-			}
-			case 4: {
-				modificarSoldado();
-				break;
-			}
-			case 5: {
-				compararSoldado();
-				break;
-			}
-			case 6: {
-				Intercambiar();
-				break;
-			}
-			case 7: {
-				verSoldado();
-				break;
-			}
-			case 8: {
-				verEjercito();
-				break;
-			}
-			case 9: {
-				Sumar();
-				break;
-			}
-			case 10: {
-				inicioJuego();
-				break;
-			}
-
-			case 11: {
-				mostrarMenu();
-				break;
-			}
-
-			default:
-				System.out.println("Opcion no valida, vuelve a intentarlo");
-				mostrarSubMenu();
-
-		}
-	}
-
-	public static void crearSoldado() {
-
-		System.out.print("A que ejercito ira el soldado (A/B): ");
-		String simboloEjercito = sc.next();
-
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoCreaSoldado(0, simboloEjercito);
-		} else {
-			procesoCreaSoldado(1, simboloEjercito);
-		}
-
-		mostrarSubMenu();
-
-	}
-
+	// esencia de cada uno de las acciones
 	public static void procesoCreaSoldado(int num, String simboloEjercito) {
 		if (ejercitos.get(num).size() >= 10) {
 			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
@@ -123,41 +28,6 @@ public class VideoJuego8 {
 			System.out.println("Soldado añadido con EXITO");
 
 		}
-	}
-
-	public static Soldado crearNuevoSoldado(String simbolo) {
-		Random rd = new Random();
-		System.out.print("Ingrese el nombre para el soldado: \n");
-		String name = sc.next();
-		System.out.print("Ingrese VIDA ACTUAL: ");
-		int vidaActual = sc.nextInt();
-		System.out.print("Ingrese NIVEL DE ATAQUE : ");
-		int nivelAtaque = sc.nextInt();
-		System.out.print("Ingrese NIVEL DE DEFENSA: ");
-		int nivelDefensa = sc.nextInt();
-		int fila, columna;
-		do {
-			fila = rd.nextInt(10);
-			columna = rd.nextInt(10);
-		} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
-
-		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simbolo.charAt(0), fila, columna);
-		System.out.println("Creando soldado ... ");
-
-		return sol;
-	}
-
-	public static void eliminarSoldado() {
-
-		System.out.print("A que ejercito ira el soldado (A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoEliminar(0, simboloEjercito);
-
-		} else {
-			procesoEliminar(1, simboloEjercito);
-		}
-		mostrarSubMenu();
 	}
 
 	public static void procesoEliminar(int num, String simboloEjercito) {
@@ -189,78 +59,6 @@ public class VideoJuego8 {
 			}
 		}
 
-	}
-
-	public static int obtenerIndice(int id, ArrayList<Soldado> ejercito) {
-		for (int i = 0; i < ejercito.size(); i++) {
-
-			if (ejercito.get(i).getId() == id)
-				return i;
-		}
-		return -1;
-	}
-
-	public static void clonarSoldado() {
-		System.out.print("De que ejercito clanara el soldado(A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoClonar(0, simboloEjercito);
-
-		} else {
-			procesoClonar(1, simboloEjercito);
-		}
-		mostrarSubMenu();
-	}
-
-	public static void procesoClonar(int num, String simboloEjercito) {
-		Random rd = new Random();
-		if (ejercitos.get(num).size() >= 10) {
-			System.out.println("Lo siento, NO PUEDES CLONAR, sobrepasas las unidades por ejercito");
-
-		} else {
-			System.out.println("Debera ingresar el ID del soldado en el ejercito");
-			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
-			char verEjercito = sc.next().toUpperCase().charAt(0);
-			if (verEjercito == 'S') {
-				mostrarEjercito(ejercitos.get(num));
-			}
-			System.out.print("Ingrese el ID del soldado: ");
-
-			int id = sc.nextInt();
-
-			int indice = obtenerIndice(id, ejercitos.get(num));
-
-			if (indice == -1) {
-				System.out.println("ID no encontrado");
-
-			} else {
-				int fila;
-				int columna;
-				do {
-					fila = rd.nextInt(10);
-					columna = rd.nextInt(10);
-				} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
-
-				Soldado clonado = ejercitos.get(num).get(indice).clonar(fila, columna);
-
-				ejercitos.get(num).add(clonado);
-				Soldado.aumentar(num);
-				System.out.println("Soldado CLONADO CON EXITO");
-			}
-		}
-
-	}
-
-	public static void modificarSoldado() {
-		System.out.print("De que ejercito modificar el soldado(A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoModificar(0, simboloEjercito);
-
-		} else {
-			procesoModificar(1, simboloEjercito);
-		}
-		mostrarSubMenu();
 	}
 
 	public static void procesoModificar(int num, String simboloEjercito) {
@@ -348,16 +146,43 @@ public class VideoJuego8 {
 		mostrarSubMenu();
 	}
 
-	public static void compararSoldado() {
-		System.out.print("De que ejercito comparar los soldados (A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoComparar(0, simboloEjercito);
+	public static void procesoClonar(int num, String simboloEjercito) {
+		Random rd = new Random();
+		if (ejercitos.get(num).size() >= 10) {
+			System.out.println("Lo siento, NO PUEDES CLONAR, sobrepasas las unidades por ejercito");
 
 		} else {
-			procesoComparar(1, simboloEjercito);
+			System.out.println("Debera ingresar el ID del soldado en el ejercito");
+			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+			char verEjercito = sc.next().toUpperCase().charAt(0);
+			if (verEjercito == 'S') {
+				mostrarEjercito(ejercitos.get(num));
+			}
+			System.out.print("Ingrese el ID del soldado: ");
+
+			int id = sc.nextInt();
+
+			int indice = obtenerIndice(id, ejercitos.get(num));
+
+			if (indice == -1) {
+				System.out.println("ID no encontrado");
+
+			} else {
+				int fila;
+				int columna;
+				do {
+					fila = rd.nextInt(10);
+					columna = rd.nextInt(10);
+				} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
+
+				Soldado clonado = ejercitos.get(num).get(indice).clonar(fila, columna);
+
+				ejercitos.get(num).add(clonado);
+				Soldado.aumentar(num);
+				System.out.println("Soldado CLONADO CON EXITO");
+			}
 		}
-		mostrarSubMenu();
+
 	}
 
 	public static void procesoComparar(int num, String simboloEjercito) {
@@ -391,16 +216,6 @@ public class VideoJuego8 {
 
 	}
 
-	public static void Intercambiar() {
-		System.out.print("De que ejercito intercambiar los soldados (A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoIntercambiar(0, simboloEjercito);
-		} else {
-			procesoIntercambiar(0, simboloEjercito);
-		}
-	}
-
 	public static void procesoIntercambiar(int num, String simboloEjercito) {
 		System.out.println("Debera ingresar el ID del promer soldado en el ejercito");
 		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
@@ -430,18 +245,6 @@ public class VideoJuego8 {
 
 	}
 
-	public static void verSoldado() {
-		System.out.print("De que ejercito desea ver el soldado (A/B): ");
-		String simboloEjercito = sc.next();
-		if (simboloEjercito.equalsIgnoreCase("A")) {
-			procesoVerSoldado(0, simboloEjercito);
-
-		} else {
-			procesoVerSoldado(1, simboloEjercito);
-		}
-		mostrarSubMenu();
-	}
-
 	public static void procesoVerSoldado(int num, String simboloEjercito) {
 		System.out.println("Debera ingresar el ID del soldado en el ejercito");
 		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
@@ -463,6 +266,145 @@ public class VideoJuego8 {
 		}
 	}
 
+	public static void procesoVerEjercito(int num) {
+		mostrarEjercito(ejercitos.get(num));
+	}
+
+	public static void procesoSumar(int num, String simboloEjercito) {
+		if (ejercitos.get(num).size() >= 10) {
+			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
+		} else {
+			Soldado sol = new Soldado();
+			for (int i = 0; i < ejercitos.get(num).size() - 1; i++) {
+				sol = ejercitos.get(num).get(i).sumar(ejercitos.get(num).get(i + 1));
+			}
+
+			ejercitos.get(num).add(sol);
+			actualizarTabla();
+			Soldado.aumentar(num);
+			System.out.println("Soldado añadido con EXITO");
+
+		}
+	}
+
+	// Metodos de las acciones
+	public static void crearSoldado() {
+
+		System.out.print("A que ejercito ira el soldado (A/B): ");
+		String simboloEjercito = sc.next();
+
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoCreaSoldado(0, simboloEjercito);
+		} else {
+			procesoCreaSoldado(1, simboloEjercito);
+		}
+
+		mostrarSubMenu();
+
+	}
+
+	public static Soldado crearNuevoSoldado(String simbolo) {
+		Random rd = new Random();
+		System.out.print("Ingrese el nombre para el soldado: \n");
+		String name = sc.next();
+		System.out.print("Ingrese VIDA ACTUAL: ");
+		int vidaActual = sc.nextInt();
+		System.out.print("Ingrese NIVEL DE ATAQUE : ");
+		int nivelAtaque = sc.nextInt();
+		System.out.print("Ingrese NIVEL DE DEFENSA: ");
+		int nivelDefensa = sc.nextInt();
+		int fila, columna;
+		do {
+			fila = rd.nextInt(10);
+			columna = rd.nextInt(10);
+		} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
+
+		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simbolo.charAt(0), fila, columna);
+		System.out.println("Creando soldado ... ");
+
+		return sol;
+	}
+
+	public static void eliminarSoldado() {
+
+		System.out.print("A que ejercito ira el soldado (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoEliminar(0, simboloEjercito);
+
+		} else {
+			procesoEliminar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static int obtenerIndice(int id, ArrayList<Soldado> ejercito) {
+		for (int i = 0; i < ejercito.size(); i++) {
+
+			if (ejercito.get(i).getId() == id)
+				return i;
+		}
+		return -1;
+	}
+
+	public static void clonarSoldado() {
+		System.out.print("De que ejercito clanara el soldado(A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoClonar(0, simboloEjercito);
+
+		} else {
+			procesoClonar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void modificarSoldado() {
+		System.out.print("De que ejercito modificar el soldado(A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoModificar(0, simboloEjercito);
+
+		} else {
+			procesoModificar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void compararSoldado() {
+		System.out.print("De que ejercito comparar los soldados (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoComparar(0, simboloEjercito);
+
+		} else {
+			procesoComparar(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
+	public static void Intercambiar() {
+		System.out.print("De que ejercito intercambiar los soldados (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoIntercambiar(0, simboloEjercito);
+		} else {
+			procesoIntercambiar(0, simboloEjercito);
+		}
+	}
+
+	public static void verSoldado() {
+		System.out.print("De que ejercito desea ver el soldado (A/B): ");
+		String simboloEjercito = sc.next();
+		if (simboloEjercito.equalsIgnoreCase("A")) {
+			procesoVerSoldado(0, simboloEjercito);
+
+		} else {
+			procesoVerSoldado(1, simboloEjercito);
+		}
+		mostrarSubMenu();
+	}
+
 	public static void verEjercito() {
 		System.out.print("De que ejercito desea ver el soldado (A/B): ");
 		String simboloEjercito = sc.next();
@@ -473,10 +415,6 @@ public class VideoJuego8 {
 			procesoVerEjercito(1);
 		}
 		mostrarSubMenu();
-	}
-
-	public static void procesoVerEjercito(int num) {
-		mostrarEjercito(ejercitos.get(num));
 	}
 
 	public static void Sumar() {
@@ -494,19 +432,81 @@ public class VideoJuego8 {
 
 	}
 
-	public static void procesoSumar(int num, String simboloEjercito) {
-		if (ejercitos.get(num).size() >= 10) {
-			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
+	public static void mostrarMenu() {
+		System.out.println("Escoja un numero");
+		System.out.println("1.- Empezar a jugar\n2.- Gestionar Ejercito\n3.- Salir");
+		System.out.print("=> : ");
+
+		int opcion = sc.nextInt();
+
+		if (opcion == 1) {
+			inicioJuego();
+		} else if (opcion == 2) {
+			mostrarSubMenu();
 		} else {
-			Soldado sol = new Soldado();
-			for (int i = 0; i < ejercitos.get(num).size() - 1; i++) {
-				sol = ejercitos.get(num).get(i).sumar(ejercitos.get(num).get(i + 1));
+			System.out.println("Gracias por ingresar al juego ...");
+			System.exit(1);
+		}
+
+	}
+
+	public static void mostrarSubMenu() {
+		System.out.println("Escoja un numero");
+		System.out.println(
+				"1.- Crear Soldado\n2.- Eliminar Soldao\n3.- Clonar Soldado\n4.- Modificar Soldado \n5.- Comparar Soldaos\n6.- Intercambiar Soldados\n7.- Ver Soldado\n8.- Ver Ejercito\n9.- Sumar Niveles\n10.- Jugar\n11.- Volver");
+		System.out.print("=> : ");
+
+		int opcion = sc.nextInt();
+		switch (opcion) {
+			case 1: {
+				crearSoldado();
+				break;
+			}
+			case 2: {
+				eliminarSoldado();
+				break;
+			}
+			case 3: {
+				clonarSoldado();
+				break;
+			}
+			case 4: {
+				modificarSoldado();
+				break;
+			}
+			case 5: {
+				compararSoldado();
+				break;
+			}
+			case 6: {
+				Intercambiar();
+				break;
+			}
+			case 7: {
+				verSoldado();
+				break;
+			}
+			case 8: {
+				verEjercito();
+				break;
+			}
+			case 9: {
+				Sumar();
+				break;
+			}
+			case 10: {
+				inicioJuego();
+				break;
 			}
 
-			ejercitos.get(num).add(sol);
-			actualizarTabla();
-			Soldado.aumentar(num);
-			System.out.println("Soldado añadido con EXITO");
+			case 11: {
+				mostrarMenu();
+				break;
+			}
+
+			default:
+				System.out.println("Opcion no valida, vuelve a intentarlo");
+				mostrarSubMenu();
 
 		}
 	}
