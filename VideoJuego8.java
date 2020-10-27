@@ -17,6 +17,51 @@ public class VideoJuego8 {
 		mostrarMenu();
 	}
 
+	// Proceso del juego, propiamente dicho
+	public static void inicioJuego() {
+		System.out.println("\nCantidad total: " + Soldado.cantidad);
+		mostrarTabla();
+
+		char turno = 'A';
+
+		while (continuar()) {
+			// Miembros de clase
+			System.out.println("\nCantidad ejercito 1: " + Soldado.ejercito1);
+			System.out.println("Cantidad ejercito 2: " + Soldado.ejercito2);
+			System.out.println("\nTurno del ejercito " + turno);
+
+			Soldado escogido = escogerSoldado(turno);
+			Soldado ganador = escogido;
+			Soldado perdedor = null;
+
+			int[] valores = preguntarPosicion(turno); // fila, columna, (0=libre, 1 = lucha)
+
+			if (valores[2] == 1) {// Batalla
+				ganador = Soldado.batallarGanador(escogido, tabla[valores[0]][valores[1]]);
+				perdedor = Soldado.batallarPerdedor(escogido, tabla[valores[0]][valores[1]], ganador);
+
+			}
+
+			int actual = ganador.getVidaActual();
+
+			ganador.setVidaActual(actual + 1);
+			actualizarEjercitos(perdedor);
+
+			actualizarTabla(escogido, ganador, valores);
+
+			mostrarTabla();
+
+			turno = cambiarTurno(turno);
+
+		}
+
+		mostrarGanador();
+		limpiar();
+		char[] simbolos = { 'A', 'B' };
+		llenarEjercitos(simbolos);
+		mostrarMenu();
+	}
+
 	// esencia de cada uno de las acciones
 	public static void procesoCreaSoldado(int num, String simboloEjercito) {
 		if (ejercitos.get(num).size() >= 10) {
@@ -24,7 +69,7 @@ public class VideoJuego8 {
 		} else {
 			ejercitos.get(num).add(crearNuevoSoldado(simboloEjercito));
 			actualizarTabla();
-			Soldado.aumentar(num);
+			Soldado.aumentar(num);//Miembro de clase
 			System.out.println("Soldado añadido con EXITO");
 
 		}
@@ -54,7 +99,7 @@ public class VideoJuego8 {
 
 				ejercitos.get(num).remove(indice);
 				actualizarTabla();
-				Soldado.disminuir(num);
+				Soldado.disminuir(num);//Miembro de clase
 				System.out.println("Soldado BORRADO CON EXITO");
 			}
 		}
@@ -281,7 +326,7 @@ public class VideoJuego8 {
 
 			ejercitos.get(num).add(sol);
 			actualizarTabla();
-			Soldado.aumentar(num);
+			Soldado.aumentar(num);//Miembro de clase
 			System.out.println("Soldado añadido con EXITO");
 
 		}
@@ -521,49 +566,6 @@ public class VideoJuego8 {
 	}
 	// ------------------------------------------------------------------------------------------------------------------------------------
 	// ------------------------------------------------------------------------------------------------------------------------------------
-
-	public static void inicioJuego() {
-		System.out.println("Cantidad total: " + Soldado.cantidad);
-		mostrarTabla();
-
-		char turno = 'A';
-
-		while (continuar()) {
-			System.out.println("Cantidad ejercito 1: " + Soldado.ejercito1);
-			System.out.println("Cantidad ejercito 2: " + Soldado.ejercito2);
-			System.out.println("Turno del ejercito " + turno);
-
-			Soldado escogido = escogerSoldado(turno);
-			Soldado ganador = escogido;
-			Soldado perdedor = null;
-
-			int[] valores = preguntarPosicion(turno); // fila, columna, (0=libre, 1 = lucha)
-
-			if (valores[2] == 1) {// Batalla
-				ganador = Soldado.batallarGanador(escogido, tabla[valores[0]][valores[1]]);
-				perdedor = Soldado.batallarPerdedor(escogido, tabla[valores[0]][valores[1]], ganador);
-
-			}
-
-			int actual = ganador.getVidaActual();
-
-			ganador.setVidaActual(actual + 1);
-			actualizarEjercitos(perdedor);
-
-			actualizarTabla(escogido, ganador, valores);
-
-			mostrarTabla();
-
-			turno = cambiarTurno(turno);
-
-		}
-
-		mostrarGanador();
-		limpiar();
-		char[] simbolos = { 'A', 'B' };
-		llenarEjercitos(simbolos);
-		mostrarMenu();
-	}
 
 	public static void actualizarEjercitos(Soldado perdedor) {
 		if (perdedor != null) {
