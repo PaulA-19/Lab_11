@@ -119,12 +119,14 @@ public class VideoJuego8 {
 		} else {
 			ejercitos.get(num).add(crearNuevoSoldado(simboloEjercito));
 			actualizarTabla();
+			Soldado.aumentar(num);
 			System.out.println("Soldado añadido con EXITO");
 
 		}
 	}
 
 	public static Soldado crearNuevoSoldado(String simbolo) {
+		Random rd = new Random();
 		System.out.print("Ingrese el nombre para el soldado: \n");
 		String name = sc.next();
 		System.out.print("Ingrese VIDA ACTUAL: ");
@@ -133,7 +135,13 @@ public class VideoJuego8 {
 		int nivelAtaque = sc.nextInt();
 		System.out.print("Ingrese NIVEL DE DEFENSA: ");
 		int nivelDefensa = sc.nextInt();
-		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simbolo.charAt(0));
+		int fila, columna;
+		do {
+			fila = rd.nextInt(10);
+			columna = rd.nextInt(10);
+		} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
+
+		Soldado sol = new Soldado(name, vidaActual, nivelAtaque, nivelDefensa, simbolo.charAt(0), fila, columna);
 		System.out.println("Creando soldado ... ");
 
 		return sol;
@@ -176,6 +184,7 @@ public class VideoJuego8 {
 
 				ejercitos.get(num).remove(indice);
 				actualizarTabla();
+				Soldado.disminuir(num);
 				System.out.println("Soldado BORRADO CON EXITO");
 			}
 		}
@@ -235,6 +244,7 @@ public class VideoJuego8 {
 				Soldado clonado = ejercitos.get(num).get(indice).clonar(fila, columna);
 
 				ejercitos.get(num).add(clonado);
+				Soldado.aumentar(num);
 				System.out.println("Soldado CLONADO CON EXITO");
 			}
 		}
@@ -495,6 +505,7 @@ public class VideoJuego8 {
 
 			ejercitos.get(num).add(sol);
 			actualizarTabla();
+			Soldado.aumentar(num);
 			System.out.println("Soldado añadido con EXITO");
 
 		}
@@ -512,11 +523,14 @@ public class VideoJuego8 {
 	// ------------------------------------------------------------------------------------------------------------------------------------
 
 	public static void inicioJuego() {
+		System.out.println("Cantidad total: " + Soldado.cantidad);
 		mostrarTabla();
 
 		char turno = 'A';
 
 		while (continuar()) {
+			System.out.println("Cantidad ejercito 1: " + Soldado.ejercito1);
+			System.out.println("Cantidad ejercito 2: " + Soldado.ejercito2);
 			System.out.println("Turno del ejercito " + turno);
 
 			Soldado escogido = escogerSoldado(turno);
@@ -555,8 +569,10 @@ public class VideoJuego8 {
 		if (perdedor != null) {
 			if (perdedor.getSimbolo() == 'A') {
 				ejercitos.get(0).remove(perdedor);
+				Soldado.disminuirEjercito1();
 			} else {
 				ejercitos.get(1).remove(perdedor);
+				Soldado.disminuirEjercito2();
 			}
 		}
 	}
@@ -613,7 +629,7 @@ public class VideoJuego8 {
 
 	public static boolean continuar() {
 
-		if (ejercitos.get(0).size() == 0 || ejercitos.get(1).size() == 0) {
+		if (Soldado.ejercito1 == 0 || Soldado.ejercito2 == 0) {
 			return false;
 		}
 		return true;
@@ -677,6 +693,11 @@ public class VideoJuego8 {
 
 				Soldado sol = new Soldado(name, vida, fila, columna, simbolos[i]);
 				ejercitos.get(i).add(sol);
+				if (i == 0) {
+					Soldado.aumentarEjercito1();
+				} else {
+					Soldado.aumentarEjercito2();
+				}
 				tabla[fila][columna] = sol; // LLenamos en la tabla
 			}
 		}

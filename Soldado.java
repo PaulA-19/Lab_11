@@ -1,9 +1,13 @@
 
 import java.util.Random;
 
-import javax.xml.catalog.CatalogManager;
+import jdk.javadoc.internal.doclets.formats.html.resources.standard;
 
 public class Soldado {
+
+	public static int cantidad = 0;
+	public static int ejercito1;
+	public static int ejercito2;
 
 	private String nombre;
 	private int nivelAtaque = (int) (Math.random() * 6);
@@ -15,7 +19,6 @@ public class Soldado {
 	private boolean vive = true;
 
 	// atributos que concidero yo
-	private static int cantidad = 0;
 	private int id;
 	private boolean atacar;
 	private int fila;
@@ -24,8 +27,53 @@ public class Soldado {
 
 	public Soldado() {
 	}
+	
+	public static void disminuir(int indice) {
+		if (indice == 0) {
+			disminuirEjercito1();
+		}else{
+			disminuirEjercito2();
+		}
+		disminuirCantidad();
+	}
 
-	public Soldado(String nombre, int fila, int columna, char simbolo) {
+
+	public static void disminuirCantidad() {
+		cantidad--;
+	}
+
+	public static void disminuirEjercito1() {
+		ejercito1--;
+	}
+
+	public static void disminuirEjercito2() {
+		ejercito2--;
+	}
+
+
+	public static void aumentar(int indice) {
+		if (indice == 0) {
+			aumentarEjercito1();
+		}else{
+			aumentarEjercito2();
+		}
+		
+	}
+
+
+	public static void aumentarCantidad() {
+		cantidad++;
+	}
+
+	public static void aumentarEjercito1() {
+		ejercito1++;
+	}
+
+	public static void aumentarEjercito2() {
+		ejercito2++;
+	}
+
+public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.nombre = nombre;
 		this.columna = columna;
 		this.simbolo = simbolo;
@@ -46,26 +94,27 @@ public class Soldado {
 		cantidad++;
 	}
 
-	public Soldado(String nombre, int nivelAtaque, int nivelDefensa, int nivelVida, boolean vive) {
-		this.nombre = nombre;
-		this.nivelAtaque = nivelAtaque;
-		this.nivelDefensa = nivelDefensa;
-		this.nivelVida = nivelVida;
-		this.vive = vive;
-		this.actitud = 'd';
-		this.id = cantidad;
-		cantidad++;
-	}
-
 	public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa, int velocidad, char simbolo) {
 		this.nombre = nombre;
 		this.nivelAtaque = nivelAtaque;
 		this.nivelDefensa = nivelDefensa;
 		this.nivelVida = nivelVida;
-		this.velocidad = velocidad;
+		this.simbolo = simbolo;
+		this.actitud = 'd';
+		this.id = cantidad;
+		cantidad++;
+	}
+
+	public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa, char simbolo , int fila, int columna) {
+		this.nombre = nombre;
+		this.nivelAtaque = nivelAtaque;
+		this.nivelDefensa = nivelDefensa;
+		this.nivelVida = nivelVida;
 		this.simbolo = simbolo;
 		cantidad++;
 		this.id = cantidad;
+		this.fila = fila;
+		this.columna = columna;
 
 	}
 
