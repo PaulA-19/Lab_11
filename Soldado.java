@@ -1,7 +1,6 @@
 
 import java.util.Random;
 
-import jdk.javadoc.internal.doclets.formats.html.resources.standard;
 
 public class Soldado {
 
