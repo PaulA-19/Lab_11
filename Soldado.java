@@ -7,6 +7,7 @@ public class Soldado {
 	public static int cantidad = 0;
 	public static int ejercito1;
 	public static int ejercito2;
+	public static int ID=0;
 
 	private String nombre;
 	private int nivelAtaque = (int) (Math.random() * 6);
@@ -78,7 +79,8 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.simbolo = simbolo;
 		this.actitud = 'd';
 		vidaActual = (int) (Math.random() * 6);
-		this.id = cantidad;
+		this.id = ID;
+		ID++;
 		cantidad++;
 	}
 
@@ -89,7 +91,8 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.columna = columna;
 		this.actitud = 'd';
 		this.simbolo = simbolo;
-		this.id = cantidad;
+		this.id = ID;
+		ID++;
 		cantidad++;
 	}
 
@@ -100,7 +103,8 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.nivelVida = nivelVida;
 		this.simbolo = simbolo;
 		this.actitud = 'd';
-		this.id = cantidad;
+		this.id = ID;
+		ID++;
 		cantidad++;
 	}
 
@@ -110,10 +114,11 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.nivelDefensa = nivelDefensa;
 		this.nivelVida = nivelVida;
 		this.simbolo = simbolo;
-		cantidad++;
-		this.id = cantidad;
+		ID++;
+		this.id = ID;
 		this.fila = fila;
 		this.columna = columna;
+		cantidad++;
 
 	}
 
@@ -133,6 +138,7 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.fila = fila;
 		this.columna = columna;
 		this.simbolo = simbolo;
+		cantidad++;
 	}
 
 	public Soldado clonar(int fila, int columna) {
@@ -144,8 +150,8 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		int velocidad = this.velocidad;
 		char actitud = this.actitud;
 		boolean vive = true;
-		cantidad++;
-		int id = cantidad;
+		ID++;
+		int id = ID;
 		boolean atacar = this.atacar;
 		char simbolo = this.simbolo;
 		Soldado sol = new Soldado(nombre, nivelAtaque, nivelDefensa, nivelVida, vidaActual, velocidad, actitud, vive,
