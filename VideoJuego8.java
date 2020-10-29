@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class VideoJuego8 {
-	static Soldado[][] tabla = new Soldado[10][10];
+	private static Soldado[][] tabla = new Soldado[10][10];
 	static Scanner sc = new Scanner(System.in);
 
 	private static ArrayList<ArrayList<Soldado>> ejercitos = new ArrayList<ArrayList<Soldado>>();
