@@ -1,124 +1,53 @@
 
 import java.util.Random;
 
-
 public class Soldado {
 
+	private static Random rd = new Random();
+
+	// Atributos de clase
 	public static int cantidad = 0;
 	public static int ejercito1;
 	public static int ejercito2;
-	public static int ID=0;
-
+	public static int ID = 0;
+	// Atributos de instancia
 	private String nombre;
-	private int nivelAtaque = (int) (Math.random() * 6);
-	private int nivelDefensa = (int) (Math.random() * 6);
+	private int nivelAtaque = rd.nextInt(5) + 1;
+	private int nivelDefensa = rd.nextInt(5) + 1;
 	private int nivelVida = 5;
 	private int vidaActual;
-	private int velocidad = (int) (Math.random() * 6);
+	private int velocidad = rd.nextInt(5) + 1;;
 	private char actitud; // Tres posibles casos , puede ser char (D,O,H)
 	private boolean vive = true;
-
-	// atributos que concidero yo
 	private int id;
 	private boolean atacar;
 	private int fila;
 	private int columna;
 	private char simbolo;
 
+	// Constructores
 	public Soldado() {
 	}
-	
-	public static void disminuir(int indice) {
-		if (indice == 0) {
-			disminuirEjercito1();
-		}else{
-			disminuirEjercito2();
-		}
-		disminuirCantidad();
-	}
 
+	public Soldado(String nombre, int fila, int columna, char simbolo) {
+		this(nombre, rd.nextInt(6) + 1, rd.nextInt(6) + 1, 5, rd.nextInt(6) + 1, 0, 'd', true, ID, false, fila, columna,
+				simbolo);
 
-	public static void disminuirCantidad() {
-		cantidad--;
-	}
-
-	public static void disminuirEjercito1() {
-		ejercito1--;
-	}
-
-	public static void disminuirEjercito2() {
-		ejercito2--;
-	}
-
-
-	public static void aumentar(int indice) {
-		if (indice == 0) {
-			aumentarEjercito1();
-		}else{
-			aumentarEjercito2();
-		}
-		
-	}
-
-
-	public static void aumentarCantidad() {
-		cantidad++;
-	}
-
-	public static void aumentarEjercito1() {
-		ejercito1++;
-	}
-
-	public static void aumentarEjercito2() {
-		ejercito2++;
-	}
-
-public Soldado(String nombre, int fila, int columna, char simbolo) {
-		this.nombre = nombre;
-		this.columna = columna;
-		this.simbolo = simbolo;
-		this.actitud = 'd';
-		vidaActual = (int) (Math.random() * 6);
-		this.id = ID;
-		ID++;
-		cantidad++;
 	}
 
 	public Soldado(String name, int vidaActual, int fila, int columna, char simbolo) {
-		nombre = name;
-		setVidaActual(vidaActual);
-		this.fila = fila;
-		this.columna = columna;
-		this.actitud = 'd';
-		this.simbolo = simbolo;
-		this.id = ID;
-		ID++;
-		cantidad++;
+		this(name, rd.nextInt(6) + 1, rd.nextInt(6) + 1, 5, vidaActual, 0, 'd', true, ID, false, fila, columna,
+				simbolo);
 	}
 
 	public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa, int velocidad, char simbolo) {
-		this.nombre = nombre;
-		this.nivelAtaque = nivelAtaque;
-		this.nivelDefensa = nivelDefensa;
-		this.nivelVida = nivelVida;
-		this.simbolo = simbolo;
-		this.actitud = 'd';
-		this.id = ID;
-		ID++;
-		cantidad++;
+		this(nombre, nivelAtaque, nivelDefensa, nivelVida, rd.nextInt(6) + 1, 0, 'd', true, ID, false,
+				rd.nextInt(5) + 1, rd.nextInt(5) + 1, simbolo);
 	}
 
-	public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa, char simbolo , int fila, int columna) {
-		this.nombre = nombre;
-		this.nivelAtaque = nivelAtaque;
-		this.nivelDefensa = nivelDefensa;
-		this.nivelVida = nivelVida;
-		this.simbolo = simbolo;
-		ID++;
-		this.id = ID;
-		this.fila = fila;
-		this.columna = columna;
-		cantidad++;
+	public Soldado(String nombre, int vidaActual, int nivelAtaque, int nivelDefensa, char simbolo, int fila,
+			int columna) {
+		this(nombre, nivelAtaque, nivelDefensa, 5, vidaActual, 0, 'd', true, ID, false, fila, columna, simbolo);
 
 	}
 
@@ -139,6 +68,49 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.columna = columna;
 		this.simbolo = simbolo;
 		cantidad++;
+		ID++;
+	}
+
+	public static void disminuir(int indice) {
+		if (indice == 0) {
+			disminuirEjercito1();
+		} else {
+			disminuirEjercito2();
+		}
+		disminuirCantidad();
+	}
+
+	public static void disminuirCantidad() {
+		cantidad--;
+	}
+
+	public static void disminuirEjercito1() {
+		ejercito1--;
+	}
+
+	public static void disminuirEjercito2() {
+		ejercito2--;
+	}
+
+	public static void aumentar(int indice) {
+		if (indice == 0) {
+			aumentarEjercito1();
+		} else {
+			aumentarEjercito2();
+		}
+
+	}
+
+	public static void aumentarCantidad() {
+		cantidad++;
+	}
+
+	public static void aumentarEjercito1() {
+		ejercito1++;
+	}
+
+	public static void aumentarEjercito2() {
+		ejercito2++;
 	}
 
 	public Soldado clonar(int fila, int columna) {
@@ -168,14 +140,21 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		return (v1 && v2 && v3 && v4 && v5);
 	}
 
-	public static void mostrarAtributos() {
+	public static void mostrarAtributosModificar() {
 		System.out.println(
 				"1.- Nombre\n2.- nivel de Ataque\n3.- Nivel de defensa\n4.- Vida actual\n5.- Ejercito\n6.- Volver");
 	}
 
+	public String mostrarTodoAtributos() {
+		return "nombre=" + nombre + ", nivelAtaque=" + nivelAtaque + ", nivelDefensa=" + nivelDefensa + ", nivelVida="
+				+ nivelVida + ", vidaActual=" + vidaActual + ", velocidad=" + velocidad + ", actitud=" + actitud
+				+ ", vive=" + vive + ", id=" + id + ", atacar=" + atacar + ", fila=" + fila + ", columna=" + columna
+				+ ", simbolo=" + simbolo;
+	}
+
 	public String toString() {
 		return "ID : " + id + ", Nombre: " + nombre + ", Nivel Vida Actual: " + vidaActual + " , Nive de ataque: "
-				+ nivelAtaque + ", Ejercito: " + simbolo;
+				+ nivelAtaque + " , Nive de defensa: " + nivelDefensa + ", Ejercito: " + simbolo;
 	}
 
 	public Soldado sumar(Soldado s) {
@@ -270,6 +249,14 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		}
 	}
 
+	public boolean isVive() {
+		return vive;
+	}
+
+	public boolean isAtacar() {
+		return atacar;
+	}
+
 	// ---------------- get and set --------------------------
 	public int getId() {
 		return id;
@@ -279,20 +266,12 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		return simbolo;
 	}
 
-	public boolean isVive() {
-		return vive;
-	}
-
 	public void setVive(boolean vive) {
 		this.vive = vive;
 	}
 
 	public static int getCantidad() {
 		return cantidad;
-	}
-
-	public static void setCantidad(int cantidad) {
-		Soldado.cantidad = cantidad;
 	}
 
 	public int getNivelAtaque() {
@@ -309,14 +288,6 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 
 	public char getActitud() {
 		return actitud;
-	}
-
-	public boolean isAtacar() {
-		return atacar;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getNivelVida() {
@@ -336,12 +307,19 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 	}
 
 	public void setNivelAtaque(int nivelAtaque) {
-		this.nivelAtaque = nivelAtaque;
+		if (nivelAtaque <= 5) {
+			this.nivelAtaque = nivelAtaque;
+		}else{
+			this.nivelAtaque=5;
+		}
 	}
 
 	public void setNivelDefensa(int nivelDefensa) {
-		this.nivelDefensa = nivelDefensa;
-	}
+		if (nivelDefensa <= 5) {
+			this.nivelDefensa = nivelDefensa;
+		}else{
+			this.nivelDefensa=5;
+		}	}
 
 	public void setSimbolo(char simbolo) {
 		this.simbolo = simbolo;
@@ -351,7 +329,6 @@ public Soldado(String nombre, int fila, int columna, char simbolo) {
 		this.actitud = actitud;
 	}
 
-	// use
 	public void setAtacar(boolean atacar) {
 		this.atacar = atacar;
 	}

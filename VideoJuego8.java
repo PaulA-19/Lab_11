@@ -1,9 +1,11 @@
 import java.util.*;
 
 public class VideoJuego8 {
-	private static Soldado[][] tabla = new Soldado[10][10];
 	static Scanner sc = new Scanner(System.in);
 
+	// Tabla para el grafico
+	private static Soldado[][] tabla = new Soldado[10][10];
+	// Estructura para el arreglo
 	private static ArrayList<ArrayList<Soldado>> ejercitos = new ArrayList<ArrayList<Soldado>>();
 
 	public static void main(String[] args) {
@@ -31,7 +33,7 @@ public class VideoJuego8 {
 			System.out.println("\nTurno del ejercito " + turno);
 
 			Soldado escogido = escogerSoldado(turno);
-			Soldado ganador = escogido;
+			Soldado ganador = escogido;// Por si no hay batalla
 			Soldado perdedor = null;
 
 			int[] valores = preguntarPosicion(turno); // fila, columna, (0=libre, 1 = lucha)
@@ -39,20 +41,17 @@ public class VideoJuego8 {
 			if (valores[2] == 1) {// Batalla
 				ganador = Soldado.batallarGanador(escogido, tabla[valores[0]][valores[1]]);
 				perdedor = Soldado.batallarPerdedor(escogido, tabla[valores[0]][valores[1]], ganador);
-
 			}
 
 			int actual = ganador.getVidaActual();
-
 			ganador.setVidaActual(actual + 1);
-			actualizarEjercitos(perdedor);
 
+			actualizarEjercitos(perdedor);
 			actualizarTabla(escogido, ganador, valores);
 
 			mostrarTabla();
 
 			turno = cambiarTurno(turno);
-
 		}
 
 		mostrarGanador();
@@ -63,67 +62,62 @@ public class VideoJuego8 {
 	}
 
 	// esencia de cada uno de las acciones
-	public static void procesoCreaSoldado(int num, String simboloEjercito) {
-		if (ejercitos.get(num).size() >= 10) {
+	public static void procesoCreaSoldado(int numEjercito, String simboloEjercito) {
+		if (ejercitos.get(numEjercito).size() >= 10) {
 			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
 		} else {
-			ejercitos.get(num).add(crearNuevoSoldado(simboloEjercito));
+			ejercitos.get(numEjercito).add(crearNuevoSoldado(simboloEjercito));
 			actualizarTabla();
-			Soldado.aumentar(num);//Miembro de clase
+			Soldado.aumentar(numEjercito);// Miembro de clase
 			System.out.println("Soldado añadido con EXITO");
 
 		}
 	}
 
-	public static void procesoEliminar(int num, String simboloEjercito) {
-		if (ejercitos.get(num).size() <= 1) {
+	public static void procesoEliminar(int numEjercito, String simboloEjercito) {
+		if (ejercitos.get(numEjercito).size() <= 1) {
 			System.out.println("Lo siento, no puedes eliminar, TE QUEDARIAS SIN EJERCITO");
 
 		} else {
 			System.out.println("Debera ingresar el ID del soldado en el ejercito");
-			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
+			System.out.print("Desea ver el ejercito " + simboloEjercito + "	 (S/N): ");
 			char verEjercito = sc.next().toUpperCase().charAt(0);
 			if (verEjercito == 'S') {
-				mostrarEjercito(ejercitos.get(num));
+				mostrarEjercito(ejercitos.get(numEjercito));
 			}
-			System.out.print("Ingrese el ID del soldado: ");
-
-			int id = sc.nextInt();
-
-			int indice = obtenerIndice(id, ejercitos.get(num));
-
+			int indice = preguntarID_ObtenerIndice(numEjercito);
 			if (indice == -1) {
 				System.out.println("ID no encontrado");
-
 			} else {
-
-				ejercitos.get(num).remove(indice);
+				ejercitos.get(numEjercito).remove(indice);
 				actualizarTabla();
-				Soldado.disminuir(num);//Miembro de clase
+				Soldado.disminuir(numEjercito);// Miembro de clase
 				System.out.println("Soldado BORRADO CON EXITO");
 			}
 		}
 
 	}
 
-	public static void procesoModificar(int num, String simboloEjercito) {
-		Soldado.mostrarAtributos();
+	public static int preguntarID_ObtenerIndice(int numEjercito) {
+		System.out.print("Ingrese el ID del soldado: ");
+		int id = sc.nextInt();
+		int indice = obtenerIndice(id, ejercitos.get(numEjercito));
+		return indice;
+
+	}
+
+	public static void procesoModificar(int numEjercito, String simboloEjercito) {
+		Soldado.mostrarAtributosModificar();
 		System.out.print("Eliga una opcion: ");
 		int opcion = sc.nextInt();
 		if (opcion <= 6) {
-
 			System.out.println("Debera ingresar el ID del soldado en el ejercito");
 			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
 			char verEjercito = sc.next().toUpperCase().charAt(0);
 			if (verEjercito == 'S') {
-				mostrarEjercito(ejercitos.get(num));
+				mostrarEjercito(ejercitos.get(numEjercito));
 			}
-			System.out.print("Ingrese el ID del soldado: ");
-
-			int id = sc.nextInt();
-
-			int indice = obtenerIndice(id, ejercitos.get(num));
-
+			int indice = preguntarID_ObtenerIndice(numEjercito);
 			if (indice == -1) {
 				System.out.println("ID no encontrado");
 
@@ -133,14 +127,14 @@ public class VideoJuego8 {
 					case 1: {
 						System.out.print("Ingrese nuevo nombre: ");
 						String name = sc.next();
-						ejercitos.get(num).get(indice).setNombre(name);
+						ejercitos.get(numEjercito).get(indice).setNombre(name);
 						System.out.println("Proceso completado con exito");
 						break;
 					}
 					case 2: {
 						System.out.print("Ingrese nuevo Nivel de ataque: ");
 						int ataque = sc.nextInt();
-						ejercitos.get(num).get(indice).setNivelAtaque(ataque);
+						ejercitos.get(numEjercito).get(indice).setNivelAtaque(ataque);
 						System.out.println("Proceso completado con exito");
 
 						break;
@@ -148,14 +142,14 @@ public class VideoJuego8 {
 					case 3: {
 						System.out.print("Ingrese nuevo nivel de defensa: ");
 						int defensa = sc.nextInt();
-						ejercitos.get(num).get(indice).setNivelDefensa(defensa);
+						ejercitos.get(numEjercito).get(indice).setNivelDefensa(defensa);
 						System.out.println("Proceso completado con exito");
 						break;
 					}
 					case 4: {
 						System.out.print("Ingrese nuevo Vida Actual: ");
 						int vida = sc.nextInt();
-						ejercitos.get(num).get(indice).setVidaActual(vida);
+						ejercitos.get(numEjercito).get(indice).setVidaActual(vida);
 						System.out.println("Proceso completado con exito");
 
 						break;
@@ -163,14 +157,14 @@ public class VideoJuego8 {
 					case 5: {
 						System.out.print("Ingrese nuevo Ejercito: ");
 						String ejer = sc.next();
-						ejercitos.get(num).get(indice).setSimbolo(ejer.charAt(0));
-						if (num == 0) {
-							ejercitos.get(1).add(ejercitos.get(num).get(indice));
-							ejercitos.get(0).remove(ejercitos.get(num).get(indice));
+						ejercitos.get(numEjercito).get(indice).setSimbolo(ejer.charAt(0));
+						if (numEjercito == 0) {
+							ejercitos.get(1).add(ejercitos.get(numEjercito).get(indice));
+							ejercitos.get(0).remove(ejercitos.get(numEjercito).get(indice));
 
 						} else {
-							ejercitos.get(0).add(ejercitos.get(num).get(indice));
-							ejercitos.get(1).remove(ejercitos.get(num).get(indice));
+							ejercitos.get(0).add(ejercitos.get(numEjercito).get(indice));
+							ejercitos.get(1).remove(ejercitos.get(numEjercito).get(indice));
 
 						}
 						System.out.println("Proceso completado con exito");
@@ -186,14 +180,13 @@ public class VideoJuego8 {
 			}
 		} else {
 			System.out.println("Opcion no valida");
-
 		}
 		mostrarSubMenu();
 	}
 
-	public static void procesoClonar(int num, String simboloEjercito) {
+	public static void procesoClonar(int numEjercito, String simboloEjercito) {
 		Random rd = new Random();
-		if (ejercitos.get(num).size() >= 10) {
+		if (ejercitos.get(numEjercito).size() >= 10) {
 			System.out.println("Lo siento, NO PUEDES CLONAR, sobrepasas las unidades por ejercito");
 
 		} else {
@@ -201,13 +194,9 @@ public class VideoJuego8 {
 			System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
 			char verEjercito = sc.next().toUpperCase().charAt(0);
 			if (verEjercito == 'S') {
-				mostrarEjercito(ejercitos.get(num));
+				mostrarEjercito(ejercitos.get(numEjercito));
 			}
-			System.out.print("Ingrese el ID del soldado: ");
-
-			int id = sc.nextInt();
-
-			int indice = obtenerIndice(id, ejercitos.get(num));
+			int indice = preguntarID_ObtenerIndice(numEjercito);
 
 			if (indice == -1) {
 				System.out.println("ID no encontrado");
@@ -220,38 +209,38 @@ public class VideoJuego8 {
 					columna = rd.nextInt(10);
 				} while (!(comprobarEspacio(fila, columna))); // Vemos si hay un objeto acupando el lugar
 
-				Soldado clonado = ejercitos.get(num).get(indice).clonar(fila, columna);
+				Soldado clonado = ejercitos.get(numEjercito).get(indice).clonar(fila, columna);
 
-				ejercitos.get(num).add(clonado);
-				Soldado.aumentar(num);
+				ejercitos.get(numEjercito).add(clonado);
+				Soldado.aumentar(numEjercito);
 				System.out.println("Soldado CLONADO CON EXITO");
 			}
 		}
 
 	}
 
-	public static void procesoComparar(int num, String simboloEjercito) {
+	public static void procesoComparar(int numEjercito, String simboloEjercito) {
 		System.out.println("Debera ingresar el ID del promer soldado en el ejercito");
 		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
 		char verEjercito = sc.next().toUpperCase().charAt(0);
 		if (verEjercito == 'S') {
-			mostrarEjercito(ejercitos.get(num));
+			mostrarEjercito(ejercitos.get(numEjercito));
 		}
 		System.out.print("Ingrese el ID del PRIMER soldado: ");
 		int id1 = sc.nextInt();
-		int indice1 = obtenerIndice(id1, ejercitos.get(num));
+		int indice1 = obtenerIndice(id1, ejercitos.get(numEjercito));
 
 		System.out.print("Ingrese el ID del SEGUNDO soldado: ");
 		int id2 = sc.nextInt();
-		int indice2 = obtenerIndice(id2, ejercitos.get(num));
+		int indice2 = obtenerIndice(id2, ejercitos.get(numEjercito));
 
 		if (indice1 == -1 || indice2 == -1) {
 			System.out.println("ID no encontrado");
 
 		} else {
 
-			Soldado sol1 = ejercitos.get(num).get(indice1);
-			Soldado sol2 = ejercitos.get(num).get(indice2);
+			Soldado sol1 = ejercitos.get(numEjercito).get(indice1);
+			Soldado sol2 = ejercitos.get(numEjercito).get(indice2);
 			if (Soldado.comparar(sol1, sol2)) {
 				System.out.println("Los soldados son IGUALES");
 			} else {
@@ -261,72 +250,68 @@ public class VideoJuego8 {
 
 	}
 
-	public static void procesoIntercambiar(int num, String simboloEjercito) {
-		System.out.println("Debera ingresar el ID del promer soldado en el ejercito");
+	public static void procesoIntercambiar(int numEjercito, String simboloEjercito) {
+		System.out.println("Debera ingresar el ID del primer soldado en el ejercito");
 		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
 		char verEjercito = sc.next().toUpperCase().charAt(0);
 		if (verEjercito == 'S') {
-			mostrarEjercito(ejercitos.get(num));
+			mostrarEjercito(ejercitos.get(numEjercito));
 		}
 		System.out.print("Ingrese el ID del PRIMER soldado: ");
 		int id1 = sc.nextInt();
-		int indice1 = obtenerIndice(id1, ejercitos.get(num));
+		int indice1 = obtenerIndice(id1, ejercitos.get(numEjercito));
 
 		System.out.print("Ingrese el ID del SEGUNDO soldado: ");
 		int id2 = sc.nextInt();
-		int indice2 = obtenerIndice(id2, ejercitos.get(num));
+		int indice2 = obtenerIndice(id2, ejercitos.get(numEjercito));
 
 		if (indice1 == -1 || indice2 == -1) {
 			System.out.println("ID no encontrado");
 
 		} else {
-			int fila = ejercitos.get(num).get(indice1).getFila();
-			int columna = ejercitos.get(num).get(indice1).getColumna();
-			ejercitos.get(num).get(indice1).setColumna(ejercitos.get(num).get(indice2).getColumna());
-			ejercitos.get(num).get(indice1).setFila(ejercitos.get(num).get(indice2).getFila());
-			ejercitos.get(num).get(indice2).setColumna(columna);
-			ejercitos.get(num).get(indice2).setFila(fila);
+			int fila = ejercitos.get(numEjercito).get(indice1).getFila();
+			int columna = ejercitos.get(numEjercito).get(indice1).getColumna();
+			ejercitos.get(numEjercito).get(indice1).setColumna(ejercitos.get(numEjercito).get(indice2).getColumna());
+			ejercitos.get(numEjercito).get(indice1).setFila(ejercitos.get(numEjercito).get(indice2).getFila());
+			ejercitos.get(numEjercito).get(indice2).setColumna(columna);
+			ejercitos.get(numEjercito).get(indice2).setFila(fila);
 		}
 
 	}
 
-	public static void procesoVerSoldado(int num, String simboloEjercito) {
+	public static void procesoVerSoldado(int numEjercito, String simboloEjercito) {
 		System.out.println("Debera ingresar el ID del soldado en el ejercito");
 		System.out.print("Desea ver el ejercito " + simboloEjercito + " (S/N): ");
 		char verEjercito = sc.next().toUpperCase().charAt(0);
 		if (verEjercito == 'S') {
-			mostrarEjercito(ejercitos.get(num));
+			mostrarEjercito(ejercitos.get(numEjercito));
 		}
-		System.out.print("Ingrese el ID del soldado: ");
-
-		int id = sc.nextInt();
-
-		int indice = obtenerIndice(id, ejercitos.get(num));
+		int indice = preguntarID_ObtenerIndice(numEjercito);
 
 		if (indice == -1) {
 			System.out.println("ID no encontrado");
 
 		} else {
-			System.out.println(ejercitos.get(num).get(indice));
+			System.out.println(ejercitos.get(numEjercito).get(indice).mostrarTodoAtributos());
 		}
 	}
 
-	public static void procesoVerEjercito(int num) {
-		mostrarEjercito(ejercitos.get(num));
+	public static void procesoVerEjercito(int numEjercito) {
+		mostrarEjercito(ejercitos.get(numEjercito));
 	}
 
-	public static void procesoSumar(int num, String simboloEjercito) {
-		if (ejercitos.get(num).size() >= 10) {
+	public static void procesoSumar(int numEjercito, String simboloEjercito) {
+		if (ejercitos.get(numEjercito).size() >= 10) {
 			System.out.println("Lo siento, NO PUEDES AGREGAR, sobrepasas las unidades por ejercito");
 		} else {
 			Soldado sol = new Soldado();
-			for (int i = 0; i < ejercitos.get(num).size() - 1; i++) {
-				sol = ejercitos.get(num).get(i).sumar(ejercitos.get(num).get(i + 1));
+			for (int i = 0; i < ejercitos.get(numEjercito).size() - 1; i++) {
+				sol = ejercitos.get(numEjercito).get(i).sumar(ejercitos.get(numEjercito).get(i + 1));
 			}
 
-			ejercitos.get(num).add(sol);
+			ejercitos.get(numEjercito).add(sol);
 			actualizarTabla();
-			Soldado.aumentar(num);//Miembro de clase
+			Soldado.aumentar(numEjercito);// Miembro de clase
 			System.out.println("Soldado añadido con EXITO");
 
 		}
@@ -350,7 +335,7 @@ public class VideoJuego8 {
 
 	public static Soldado crearNuevoSoldado(String simbolo) {
 		Random rd = new Random();
-		System.out.print("Ingrese el nombre para el soldado: \n");
+		System.out.print("Ingrese el nombre para el soldado: ");
 		String name = sc.next();
 		System.out.print("Ingrese VIDA ACTUAL: ");
 		int vidaActual = sc.nextInt();
@@ -436,6 +421,7 @@ public class VideoJuego8 {
 		} else {
 			procesoIntercambiar(0, simboloEjercito);
 		}
+		mostrarSubMenu();
 	}
 
 	public static void verSoldado() {
@@ -588,7 +574,6 @@ public class VideoJuego8 {
 				tabla[tem.getFila()][tem.getColumna()] = tem;
 			}
 		}
-
 	}
 
 	public static int[] preguntarPosicion(char turno) {
@@ -682,9 +667,9 @@ public class VideoJuego8 {
 
 		for (int i = 0; i < 2; i++) {
 			int fila, columna;
-			int num = rd.nextInt(10) + 1;
+			int numEjercito = rd.nextInt(10) + 1;
 
-			for (int j = 0; j < num; j++) {
+			for (int j = 0; j < numEjercito; j++) {
 				do {
 					fila = rd.nextInt(10);
 					columna = rd.nextInt(10);
